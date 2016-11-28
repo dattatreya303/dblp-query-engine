@@ -6,8 +6,8 @@ import org.xml.sax.helpers.*;
 
 class Parser extends DefaultHandler{
 	ArrayList<Publication> list = new ArrayList<Publication>();
-	String title, journal, url, pages, key;
-	int year, volume;
+	String title, journal, volume, url, pages, key;
+	int year;
 	ArrayList<String> authors = new ArrayList<String>();
 	String byYear;
 
@@ -24,7 +24,8 @@ class Parser extends DefaultHandler{
 			pages= null;
 			iPub = true;
 			key = attr.getValue("key");
-			System.out.println(key);
+			authors = new ArrayList<String>();
+			// System.out.println(key);
 		}
 		else if(qName.equalsIgnoreCase("author")){
 			iAuthor = true;
@@ -70,7 +71,7 @@ class Parser extends DefaultHandler{
 			iYear = false;
 		}
 		else if(iVolume){
-			this.volume = Integer.parseInt(t);
+			this.volume = t;
 			iVolume = false;
 		}
 		else if(iJournal){
@@ -86,10 +87,10 @@ class Parser extends DefaultHandler{
 	public void endElement(String uri, String localName, String qName) throws SAXException{
 		if(qName.equalsIgnoreCase("article")){
 			iPub = false;
-			if(year == 1983){
+			if(year == 1956){
 				Publication pub = new Publication(authors, title, pages, year, volume, journal, url, key);
 				list.add(pub);
-				authors.clear();
+				authors = null;
 			}
 		}
 	}
@@ -99,6 +100,8 @@ class Parser extends DefaultHandler{
 	}
 
 	public static void main(String[] args) throws Exception{
+		System.setProperty("jdk.xml.entityExpansionLimit", "0");
+
 		SAXParserFactory spf = SAXParserFactory.newInstance();
 	    spf.setNamespaceAware(true);
 	    SAXParser saxParser = spf.newSAXParser();
@@ -108,6 +111,14 @@ class Parser extends DefaultHandler{
 		xmlReader.parse("dblp.xml");
 		// saxParser.parse(new File("dblp.xml"), parser);
 		System.out.println(parser.getList().size());
+		int j=0;
+		for(Publication p: parser.getList()){
+			System.out.println(p);
+			j += 1;
+			if(j == 10){
+				break;
+			}
+		}
 	}
 
 	public ArrayList<Publication> getList(){

@@ -2,14 +2,18 @@ import java.io.*;
 import java.util.*;
 
 class Publication{
-	String title, journal, url, pages, key;
-	int year, volume;
+	String title, journal, url, pages, key, volume;
+	int year;
 	ArrayList<String> authors;
 
-	public Publication(ArrayList<String> authors, String title, String pages,
-		int year, int volume, String journal, String url, String key){
+	public Publication(ArrayList<String> authorsIn, String title, String pages,
+		int year, String volume, String journal, String url, String key){
 
-		this.authors = authors; this.title = title; this.pages = pages;
+		authors = new ArrayList<String>();
+		for(String aut: authorsIn){
+			this.authors.add(aut);
+		}
+		this.title = title; this.pages = pages;
 		this.year = year; this.volume = volume;	this.journal = journal;
 		this.url = url;	this.key = key;
 	}
@@ -38,7 +42,7 @@ class Publication{
 		return year;
 	}
 
-	public int getVolume(){
+	public String getVolume(){
 		return volume;
 	}
 
@@ -66,11 +70,34 @@ class Publication{
 		this.year = year;
 	}
 
-	public void setVolume(int volume){
+	public void setVolume(String volume){
 		this.volume = volume;
 	}
 
 	public void addAuthor(String author){
 		this.authors.add(author);
+	}
+
+	public String toString(){
+		String ret = "";
+		ret += "Authors: ";
+		for(int i=0; i < this.authors.size(); i++){
+			ret += this.authors.get(i);
+			// System.out.println(ret);
+			if(i != this.authors.size() - 1){
+				ret += ", ";
+			}else{
+				ret += '\n';
+			}
+		}
+		// System.out.println("*");
+		ret += "Title: "+this.title+'\n';
+		ret += "Pages: "+this.pages+'\n';
+		ret += "Year: "+String.valueOf(this.year)+'\n';
+		ret += "Volume: "+this.volume+'\n';
+		ret += "Journal/Booktitle: "+this.journal+'\n';
+		ret += "URL: "+this.url+'\n';
+
+		return ret;
 	}
 }
