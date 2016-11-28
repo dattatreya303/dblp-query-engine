@@ -21,7 +21,7 @@ class Parser extends DefaultHandler{
 	public void startElement(String uri, String localName, String qName, Attributes attr) throws SAXException{
 		if(qName.equalsIgnoreCase("article")){
 			title = null; journal = null; url = null;
-			authors = null; pages= null;
+			pages= null;
 			iPub = true;
 			key = attr.getValue("key");
 			System.out.println(key);
@@ -51,9 +51,9 @@ class Parser extends DefaultHandler{
 
 	public void characters(char ch[], int start, int length) throws SAXException{
 		String t = new String(ch, start, length);
-		System.out.println(t);
+		// System.out.println(t);
 		if(iAuthor){
-			System.out.print(this.authors);
+			// System.out.print(this.authors);
 			this.authors.add(t);
 			iAuthor = false;
 		}
@@ -89,6 +89,7 @@ class Parser extends DefaultHandler{
 			if(year == 1983){
 				Publication pub = new Publication(authors, title, pages, year, volume, journal, url, key);
 				list.add(pub);
+				authors.clear();
 			}
 		}
 	}
