@@ -6,10 +6,14 @@ class Publication{
 	int year;
 	ArrayList<String> authors;
 
-	public Publication(ArrayList<String> authors, String title, String pages,
+	public Publication(ArrayList<String> authorsIn, String title, String pages,
 		int year, String volume, String journal, String url, String key){
 
-		this.authors = authors; this.title = title; this.pages = pages;
+		authors = new ArrayList<String>();
+		for(String aut: authorsIn){
+			this.authors.add(aut);
+		}
+		this.title = title; this.pages = pages;
 		this.year = year; this.volume = volume;	this.journal = journal;
 		this.url = url;	this.key = key;
 	}
@@ -75,20 +79,25 @@ class Publication{
 	}
 
 	public String toString(){
-		System.out.print("Authors: ");
-		for(int i=0; i < authors.size(); i++){
-			System.out.print(aut);
-			if(i != authors.size() - 1){
-				System.out.print(", ");
+		String ret = "";
+		ret += "Authors: ";
+		for(int i=0; i < this.authors.size(); i++){
+			ret += this.authors.get(i);
+			// System.out.println(ret);
+			if(i != this.authors.size() - 1){
+				ret += ", ";
 			}else{
-				System.out.println();
+				ret += '\n';
 			}
 		}
-		System.out.println("Title: "+title);
-		System.out.println("Pages: "+pages);
-		System.out.println("Year: "+(String)(year));
-		System.out.println("Volume: "+volume);
-		System.out.println("Journal/Booktitle: "+journal);
-		System.out.println("URL: "+url);
+		// System.out.println("*");
+		ret += "Title: "+this.title+'\n';
+		ret += "Pages: "+this.pages+'\n';
+		ret += "Year: "+String.valueOf(this.year)+'\n';
+		ret += "Volume: "+this.volume+'\n';
+		ret += "Journal/Booktitle: "+this.journal+'\n';
+		ret += "URL: "+this.url+'\n';
+
+		return ret;
 	}
 }
