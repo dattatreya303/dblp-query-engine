@@ -2,3 +2,9 @@
 /*.xml
 /*.dtd
 /*.swp
+
+# java class files
+/*.class
+
+# hidden files and directories
+/.*
