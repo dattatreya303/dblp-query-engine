@@ -6,7 +6,7 @@ import org.xml.sax.helpers.*;
 
 class Parser extends DefaultHandler{
 	ArrayList<Publication> list = new ArrayList<Publication>();
-	String title, journal, volume, url, pages, key;
+	String title, journal, volume, url, pages, key, type;
 	int year;
 	ArrayList<String> authors = new ArrayList<String>();
 	String byYear;
@@ -19,15 +19,19 @@ class Parser extends DefaultHandler{
 	}
 
 	public void startElement(String uri, String localName, String qName, Attributes attr) throws SAXException{
-		if(qName.equalsIgnoreCase("article")){
-			title = null; journal = null; url = null;
-			pages= null;
+		if(qName.equalsIgnoreCase("article") ||	qName.equalsIgnoreCase("inproceedings")||
+			qName.equalsIgnoreCase("proceedings")||	qName.equalsIgnoreCase("book")||
+			qName.equalsIgnoreCase("mastersthesis")||	qName.equalsIgnoreCase("phdthesis")){
+
+			type = qName;
+			title = ""; journal = ""; url = "";
+			pages= "";
 			iPub = true;
 			key = attr.getValue("key");
 			authors = new ArrayList<String>();
 			// System.out.println(key);
 		}
-		else if(qName.equalsIgnoreCase("author")){
+		else if(qName.equalsIgnoreCase("author") || qName.equalsIgnoreCase("editor")){
 			iAuthor = true;
 		}
 		else if(qName.equalsIgnoreCase("title")){
@@ -42,7 +46,7 @@ class Parser extends DefaultHandler{
 		else if(qName.equalsIgnoreCase("volume")){
 			iVolume = true;
 		}
-		else if(qName.equalsIgnoreCase("journal")){
+		else if(qName.equalsIgnoreCase("journal") || qName.equalsIgnoreCase("booktitle")){
 			iJournal = true;
 		}
 		else if(qName.equalsIgnoreCase("url")){
@@ -85,10 +89,13 @@ class Parser extends DefaultHandler{
 	}
 
 	public void endElement(String uri, String localName, String qName) throws SAXException{
-		if(qName.equalsIgnoreCase("article")){
+		if(qName.equalsIgnoreCase("article") ||	qName.equalsIgnoreCase("inproceedings")||
+			qName.equalsIgnoreCase("proceedings")||	qName.equalsIgnoreCase("book")||
+			qName.equalsIgnoreCase("mastersthesis")||	qName.equalsIgnoreCase("phdthesis")){
+
 			iPub = false;
 			if(year == 1956){
-				Publication pub = new Publication(authors, title, pages, year, volume, journal, url, key);
+				Publication pub = new Publication(type, authors, title, pages, year, volume, journal, url, key);
 				list.add(pub);
 				authors = null;
 			}
@@ -113,13 +120,15 @@ class Parser extends DefaultHandler{
 		System.out.println(parser.getList().size());
 		int j=0;
 		for(Publication p: parser.getList()){
-			System.out.println(p);
-			j += 1;
-			if(j == 10){
-				break;
+			if(!"article".equals(p.getType())){
+				System.out.println(p);
+				j += 1;
+				if(j == 10){
+					break;
+				}
 			}
 		}
-	}
+	}	
 
 	public ArrayList<Publication> getList(){
 		return list;

@@ -2,13 +2,14 @@ import java.io.*;
 import java.util.*;
 
 class Publication{
-	String title, journal, url, pages, key, volume;
+	String title, journal, url, pages, key, volume, type;
 	int year;
 	ArrayList<String> authors;
 
-	public Publication(ArrayList<String> authorsIn, String title, String pages,
+	public Publication(String type, ArrayList<String> authorsIn, String title, String pages,
 		int year, String volume, String journal, String url, String key){
 
+		this.type = type;
 		authors = new ArrayList<String>();
 		for(String aut: authorsIn){
 			this.authors.add(aut);
@@ -16,10 +17,6 @@ class Publication{
 		this.title = title; this.pages = pages;
 		this.year = year; this.volume = volume;	this.journal = journal;
 		this.url = url;	this.key = key;
-	}
-
-	public Publication(){
-		this.authors = new ArrayList<String>();
 	}
 
 	public String getTitle(){
@@ -50,6 +47,10 @@ class Publication{
 		return key;
 	}
 
+	public String getType(){
+		return type;
+	}
+
 	public void setTitle(String title){
 		this.title = title;
 	}
@@ -78,8 +79,13 @@ class Publication{
 		this.authors.add(author);
 	}
 
+	public void setType(String type){
+		this.type = type;
+	}
+
 	public String toString(){
 		String ret = "";
+		ret += "Type: "+type+'\n';
 		ret += "Authors: ";
 		for(int i=0; i < this.authors.size(); i++){
 			ret += this.authors.get(i);
