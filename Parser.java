@@ -6,8 +6,8 @@ import org.xml.sax.helpers.*;
 
 class Parser extends DefaultHandler{
 	ArrayList<Publication> list = new ArrayList<Publication>();
-	String title, journal, url, pages, key;
-	int year, volume;
+	String title, journal, volume, url, pages, key;
+	int year;
 	ArrayList<String> authors = new ArrayList<String>();
 	String byYear;
 
@@ -24,7 +24,7 @@ class Parser extends DefaultHandler{
 			pages= null;
 			iPub = true;
 			key = attr.getValue("key");
-			System.out.println(key);
+			// System.out.println(key);
 		}
 		else if(qName.equalsIgnoreCase("author")){
 			iAuthor = true;
@@ -70,7 +70,7 @@ class Parser extends DefaultHandler{
 			iYear = false;
 		}
 		else if(iVolume){
-			this.volume = Integer.parseInt(t);
+			this.volume = t;
 			iVolume = false;
 		}
 		else if(iJournal){
@@ -99,6 +99,8 @@ class Parser extends DefaultHandler{
 	}
 
 	public static void main(String[] args) throws Exception{
+		System.setProperty("jdk.xml.entityExpansionLimit", "0");
+
 		SAXParserFactory spf = SAXParserFactory.newInstance();
 	    spf.setNamespaceAware(true);
 	    SAXParser saxParser = spf.newSAXParser();

@@ -2,12 +2,12 @@ import java.io.*;
 import java.util.*;
 
 class Publication{
-	String title, journal, url, pages, key;
-	int year, volume;
+	String title, journal, url, pages, key, volume;
+	int year;
 	ArrayList<String> authors;
 
 	public Publication(ArrayList<String> authors, String title, String pages,
-		int year, int volume, String journal, String url, String key){
+		int year, String volume, String journal, String url, String key){
 
 		this.authors = authors; this.title = title; this.pages = pages;
 		this.year = year; this.volume = volume;	this.journal = journal;
@@ -38,7 +38,7 @@ class Publication{
 		return year;
 	}
 
-	public int getVolume(){
+	public String getVolume(){
 		return volume;
 	}
 
@@ -66,11 +66,29 @@ class Publication{
 		this.year = year;
 	}
 
-	public void setVolume(int volume){
+	public void setVolume(String volume){
 		this.volume = volume;
 	}
 
 	public void addAuthor(String author){
 		this.authors.add(author);
+	}
+
+	public String toString(){
+		System.out.print("Authors: ");
+		for(int i=0; i < authors.size(); i++){
+			System.out.print(aut);
+			if(i != authors.size() - 1){
+				System.out.print(", ");
+			}else{
+				System.out.println();
+			}
+		}
+		System.out.println("Title: "+title);
+		System.out.println("Pages: "+pages);
+		System.out.println("Year: "+(String)(year));
+		System.out.println("Volume: "+volume);
+		System.out.println("Journal/Booktitle: "+journal);
+		System.out.println("URL: "+url);
 	}
 }
