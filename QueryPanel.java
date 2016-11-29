@@ -1,5 +1,7 @@
 import java.awt.*;
+import java.awt.event.*;
 import javax.swing.*;
+import javax.swing.border.*;
 
 class QueryPanel extends JPanel{
 
@@ -25,6 +27,19 @@ class QueryPanel extends JPanel{
 		queryBox = new JComboBox<String>();
 		queryBox.addItem("Query1");
 		queryBox.addItem("Query2");
+		queryBox.addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent e){
+				JComboBox m = (JComboBox)e.getSource();
+				String selQuery = (String)m.getSelectedItem();
+				// System.out.println(selQuery);
+				if(selQuery.equals("Query1")){
+					
+				}
+				else if(selQuery.equals("Query2"){
+					
+				}
+			}
+		});
 		searchBy = new JComboBox<String>();
 		searchBy.addItem("Author");
 		searchBy.addItem("Title");
