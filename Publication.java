@@ -53,6 +53,10 @@ class Publication implements Comparable<Publication>{
 		return type;
 	}
 
+	public ArrayList<String> getAuthors(){
+		return authors;
+	}
+
 	public void setTitle(String title){
 		this.title = title;
 	}
