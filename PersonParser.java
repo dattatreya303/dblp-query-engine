@@ -58,22 +58,22 @@ class PersonParser extends DefaultHandler{
 		System.out.println("BOTTOM");
 	}
 
-	public static void main(String[] args) throws Exception{
-		System.setProperty("jdk.xml.entityExpansionLimit", "0");
+	// public static void main(String[] args) throws Exception{
+	// 	System.setProperty("jdk.xml.entityExpansionLimit", "0");
 
-		SAXParserFactory spf = SAXParserFactory.newInstance();
-	    spf.setNamespaceAware(true);
-	    SAXParser saxParser = spf.newSAXParser();
-		XMLReader xmlReader = saxParser.getXMLReader();
-		PersonParser parser = new PersonParser("abcd");
-		xmlReader.setContentHandler(parser);
-		try{
-			xmlReader.parse("dblp.xml");
-		}
-		catch(SAXBreakerException s){
-			System.out.println(parser.getPerson());
-		}
-	}
+	// 	SAXParserFactory spf = SAXParserFactory.newInstance();
+	//     spf.setNamespaceAware(true);
+	//     SAXParser saxParser = spf.newSAXParser();
+	// 	XMLReader xmlReader = saxParser.getXMLReader();
+	// 	PersonParser parser = new PersonParser("abcd");
+	// 	xmlReader.setContentHandler(parser);
+	// 	try{
+	// 		xmlReader.parse("dblp.xml");
+	// 	}
+	// 	catch(SAXBreakerException s){
+	// 		System.out.println(parser.getPerson());
+	// 	}
+	// }
 
 	public Person getPerson(){
 		if("".equals(person.getKey())){

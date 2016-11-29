@@ -144,31 +144,33 @@ class PublicationsByTitleParser extends DefaultHandler{
 		System.out.println("BOTTOM");
 	}
 
-	public static void main(String[] args) throws Exception{
-		System.setProperty("jdk.xml.entityExpansionLimit", "0");
+	// public static void main(String[] args) throws Exception{
+	// 	System.setProperty("jdk.xml.entityExpansionLimit", "0");
 
-		SAXParserFactory spf = SAXParserFactory.newInstance();
-	    spf.setNamespaceAware(true);
-	    SAXParser saxParser = spf.newSAXParser();
-		XMLReader xmlReader = saxParser.getXMLReader();
-		ArrayList<String> temp = new ArrayList<String>();
-		temp.add("quantum");
-		temp.add("computing");
-		PublicationsByTitleParser parser = new PublicationsByTitleParser(temp);
-		xmlReader.setContentHandler(parser);
-		xmlReader.parse("dblp.xml");
-		// saxParser.parse(new File("dblp.xml"), parser);
-		System.out.println(parser.getList().size());
-		int j=0;
-		for(Publication p: parser.getList().keySet()){
-			System.out.print(p);
-			System.out.println("Relevance: "+parser.getList().get(p)+"\n");
-			j += 1;
-			if(j == 10){
-				break;
-			}
-		}
-	}	
+	// 	SAXParserFactory spf = SAXParserFactory.newInstance();
+	//     spf.setNamespaceAware(true);
+	//     SAXParser saxParser = spf.newSAXParser();
+	// 	XMLReader xmlReader = saxParser.getXMLReader();
+	// 	ArrayList<String> temp = new ArrayList<String>();
+	// 	temp.add("quantum");
+	// 	temp.add("computing");
+	// 	PublicationsByTitleParser parser = new PublicationsByTitleParser(temp);
+	// 	xmlReader.setContentHandler(parser);
+	// 	xmlReader.parse("dblp.xml");
+	// 	// saxParser.parse(new File("dblp.xml"), parser);
+	// 	System.out.println(parser.getList().size());
+	// 	int j=0;
+	// 	for(Publication p: parser.getList().keySet()){
+	// 		if(parser.getList().get(p) == temp.size()){
+	// 			System.out.print(p);
+	// 			// System.out.println("Relevance: "+parser.getList().get(p)+"\n");
+	// 			j += 1;
+	// 			if(j == 10){
+	// 				break;
+	// 			}
+	// 		}
+	// 	}
+	// }
 
 	public HashMap<Publication, Integer> getList(){
 		return dict;
