@@ -53,15 +53,25 @@ class Q1Panel extends QPanel{
 		add(temp);
 	}
 
-	public static Q1Panel getInstance(){
+	public static Q1Panel getInstance(QueryEngine qe){
 		if(instance == null){
-			instance = new Q1Panel();
+			instance = new Q1Panel(qe);
 		}
 		return instance;
 	}
 
-	public void search(){
+	public void search() throws Exception{
 		QueryEngine qe = getEngine();
+		if(searchBy.getSelectedItem().equals("Title")){
+			qe.publicationsByTitle(nameTitle.getText().split("\\s+"));
+		}else{
+			qe.publicationsByAuthor(nameTitle.getText());
+		}
+		if(sortByRelevance.isSelected()){
+			qe.sortByRelevance();
+		}else{
+			// qe.sortByYear(1);
+		}
 	}
 }
 

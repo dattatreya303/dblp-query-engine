@@ -9,12 +9,12 @@ class PublicationsByTitleParser extends DefaultHandler{
 	String title, journal, volume, url, pages, key, type;
 	int year, relevance;
 	ArrayList<String> authors = new ArrayList<String>();
-	ArrayList<String> tags;
+	String[] tags;
 
 	boolean iPub = false, iAuthor = false, iTitle = false, iPages = false;
 	boolean iYear = false, iVolume = false, iJournal = false, iURL = false;
 
-	public PublicationsByTitleParser(ArrayList<String> tags){
+	public PublicationsByTitleParser(String[] tags){
 		this.tags = tags; //new ArrayList<String>();
 //		for(String s: tags){
 //			this.tags.add(s);

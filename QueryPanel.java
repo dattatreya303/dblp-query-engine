@@ -9,14 +9,16 @@ class QueryPanel extends JPanel{
 	private JPanel basePanel;
 	private JButton search;
 	private QPanel currentQPanel;
+	private QueryEngine qe;
 	
 	// public static final int MESSAGE_X = 85;
 	// public static final int MESSAGE_Y = 150;
 	// private static final int DEFAULT_WIDTH = 350;
 	// private static final int DEFAULT_HEIGHT = 500;
 	
-	QueryPanel(){
+	QueryPanel(QueryEngine qe) throws Exception{
 		basePanel = new JPanel();
+		search = new JButton();
 
 		queryBox = new JComboBox<String>();
 		queryBox.addItem("Query1");
@@ -28,16 +30,16 @@ class QueryPanel extends JPanel{
 				// System.out.println(selQuery);
 				if(selQuery.equals("Query1")){
 					basePanel.removeAll();
-					basePanel.add(Q1Panel.getInstance());
+					basePanel.add(Q1Panel.getInstance(qe));
 					basePanel.revalidate();
-					currentQPanel = Q1Panel.getInstance();
+					currentQPanel = Q1Panel.getInstance(qe);
 				}
 				else if(selQuery.equals("Query2")){
 					// System.out.println("Query2");
 					basePanel.removeAll();
-					basePanel.add(Q2Panel.getInstance());
+					basePanel.add(Q2Panel.getInstance(qe));
 					basePanel.revalidate();
-					currentQPanel = Q2Panel.getInstance();
+					currentQPanel = Q2Panel.getInstance(qe);
 				}
 			}
 		});
@@ -45,11 +47,19 @@ class QueryPanel extends JPanel{
 
 		search = new JButton();
 		search.addActionListener(new ActionListener(){
-			currentQPanel.search();
+			public void actionPerformed(ActionEvent e){
+				try{
+					currentQPanel.search();
+				}
+				catch(Exception ex){
+					// do nothing
+				}
+			}
 		});
 
 		add(queryBox);
 		add(basePanel);
+		add(search);
 
 	}
 }

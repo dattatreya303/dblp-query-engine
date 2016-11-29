@@ -9,7 +9,8 @@ class Q2Panel extends QPanel{
 
 	private static Q2Panel instance = null;
 	
-	private Q2Panel(){
+	private Q2Panel(QueryEngine qe){
+		super(qe);
 		noPubsTag = new JLabel("No. of publications: ");
 		noPubsTag.setMaximumSize(noPubsTag.getPreferredSize());
 		noPubs = new JTextField(20);
@@ -18,14 +19,15 @@ class Q2Panel extends QPanel{
 		add(noPubs);
 	}
 
-	public static Q2Panel getInstance(){
+	public static Q2Panel getInstance(QueryEngine qe){
 		if(instance == null){
-			instance =  new Q2Panel();
+			instance =  new Q2Panel(qe);
 		}
 		return instance;
 	}
 
 	public void search(){
 		QueryEngine qe = getEngine();
+		qe.authorByPublications(Integer.parseInt(noPubs.getText()));
 	}
 }

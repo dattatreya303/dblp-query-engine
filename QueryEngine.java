@@ -8,6 +8,7 @@ class QueryEngine{
 	ArrayList<Publication> currentPublications;
 	TreeMap<String, Integer> allAuthors;
 	TreeMap<String, String> aliasMap;
+	ArrayList<String> currentAuthors;
 
 	public QueryEngine() throws Exception{
 		currentPublications = new ArrayList<Publication>();
@@ -41,7 +42,7 @@ class QueryEngine{
 		// }
 	}
 
-	public void publicationsByTitle(ArrayList<String> tags) throws Exception{
+	public void publicationsByTitle(String[] tags) throws Exception{
 		PublicationsByTitleParser parser = new PublicationsByTitleParser(tags);
 		SAXParserFactory spf = SAXParserFactory.newInstance();
 	    spf.setNamespaceAware(true);
@@ -52,17 +53,17 @@ class QueryEngine{
 		currentPublications = null;
 		currentPublications = parser.getList();
 		int j=0;
-		Collections.sort(currentPublications);
-		for(Publication p: currentPublications){
-			if(p.relevance >= 1){
-				System.out.print(p);
-				System.out.println("Relevance: "+p.relevance+"\n");
-				j += 1;
-				if(j == 10){
-					break;
-				}
-			}
-		}
+		// Collections.sort(currentPublications);
+		// for(Publication p: currentPublications){
+		// 	if(p.relevance >= 1){
+		// 		System.out.print(p);
+		// 		System.out.println("Relevance: "+p.relevance+"\n");
+		// 		j += 1;
+		// 		if(j == 10){
+		// 			break;
+		// 		}
+		// 	}
+		// }
 	}
 
 	public void publicationsByAuthor(String author) throws Exception{
@@ -99,13 +100,13 @@ class QueryEngine{
 	}
 
 	public ArrayList<String> authorByPublications(int k){
-		ArrayList<String> selAuthors = new ArrayList<String>();
+		currentAuthors = new ArrayList<String>();
 		for(String au: allAuthors.keySet()){
 			if(allAuthors.get(au) >= k){
-				selAuthors.add(au);
+				currentAuthors.add(au);
 			}
 		}
-		return selAuthors;
+		return currentAuthors;
 	}
 
 	public static void main(String[] args) throws Exception{
@@ -117,17 +118,17 @@ class QueryEngine{
 		// qe.publicationsByTitle(temp);
 	}
 
-	// public HashSet<Publication> sortByRelevance(){
-	// 	Set<Publication> pubs = currentPublications.keySet();
-	// 	Iterator it = pubs.iterator();
-	// 	// sort
-	// }
+	public void sortByRelevance(){
+		Collections.sort(currentPublications);
+	}
 
-	// public HashSet<Publication> sortByDate(int mode){// mode = 0 for reverse sort
-	// 	Set<Publication> pubs = currentPublications.keySet();
-	// 	Iterator it = pubs.iterator();
-	// 	// sort
-	// }
+	public void sortByYear(int mode){// mode = 0 for reverse sort, 1 for normal
+		// currentPublications.sort(Comparator.comparingInteger(Publication::getYear));
+		if(mode == 0){
+			Collections.reverse(currentPublications);
+		}
+
+	}
 
 	// public HashSet<Publication> inBetween(int year1, int year2){
 	// 	Set<Publication> pubs = currentPublications.keySet();
@@ -156,4 +157,12 @@ class QueryEngine{
 
 	// 	return newPubs;
 	// }
+
+	public ArrayList<Publication> getCurrentPublications(){
+		return currentPublications;
+	}
+
+	public ArrayList<String> getCurrentAuthors(){
+		return currentAuthors;
+	}
 }

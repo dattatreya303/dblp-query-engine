@@ -8,22 +8,32 @@ import java.util.*;
 class RPanel extends JPanel{
 	private JLabel outBox;
 	private JTable table;
-	private TableModel tmodel;
+	private PublicationTableModel ptmodel;
+	private AuthorTableModel atmodel;
 	private ArrayList<Publication> pubs;
+	private ArrayList<String> auts;
 
 	public RPanel(ArrayList<Publication> pubs){
-		setList(pubs);
-		outBox = new JLabel();
-		tmodel = new TableModel(pubs);
+		setPubList(pubs);
+		outBox = new JLabel("No. of records: "+pubs.size());
+		ptmodel = new PublicationTableModel(pubs);
+		atmodel = new AuthorTableModel(auts);
 		table = new JTable();
 		EventQueue.invokeLater(new Runnable(){
 			public void run(){
-				table.setModel(tmodel);
+				table.setModel(ptmodel);
 			}
 		});
+
+		add(outBox);
+		add(table);
 	}
 
-	public void setList(ArrayList<Publication> pubs){
+	public void setPubList(ArrayList<Publication> pubs){
 		this.pubs = pubs;
+	}
+
+	public void setAuthList(ArrayList<String> auts){
+		this.auts = auts;
 	}
 }

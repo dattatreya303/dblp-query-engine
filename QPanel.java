@@ -1,3 +1,8 @@
+import java.awt.*;
+import java.awt.event.*;
+import javax.swing.*;
+import javax.swing.border.*;
+
 abstract class QPanel extends JPanel{
 	QueryEngine qe;
 	public QPanel(QueryEngine qe){
@@ -6,5 +11,5 @@ abstract class QPanel extends JPanel{
 	public QueryEngine getEngine(){
 		return qe;
 	}
-	public abstract void search();
+	public abstract void search() throws Exception;
 }
