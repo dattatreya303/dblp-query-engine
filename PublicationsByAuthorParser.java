@@ -37,28 +37,30 @@ class PublicationsByAuthorParser extends DefaultHandler{
 			authors = new ArrayList<String>();
 			// System.out.println(key);
 		}
-		else if(qName.equalsIgnoreCase("author") || qName.equalsIgnoreCase("editor")){
+		else if((qName.equalsIgnoreCase("author") || qName.equalsIgnoreCase("editor")) && iPub){
 			iAuthor = true;
 		}
-		else if(qName.equalsIgnoreCase("title")){
+		else if(qName.equalsIgnoreCase("title") && iPub){
 			iTitle = true;
 		}
-		else if(qName.equalsIgnoreCase("pages")){
+		else if(qName.equalsIgnoreCase("pages") && iPub){
 			iPages = true;
 		}
-		else if(qName.equalsIgnoreCase("year")){
+		else if(qName.equalsIgnoreCase("year") && iPub){
+		//	System.out.println("iyear trues qname : " + qName);
 			iYear = true;
 		}
-		else if(qName.equalsIgnoreCase("volume")){
+		else if(qName.equalsIgnoreCase("volume") && iPub){
 			iVolume = true;
 		}
-		else if(qName.equalsIgnoreCase("journal") || qName.equalsIgnoreCase("booktitle")){
-			// System.out.println("$$");
+		else if((qName.equalsIgnoreCase("journal") || qName.equalsIgnoreCase("booktitle")) && iPub){
+		//	 System.out.println("iJournal true coz qname is "+qName);
 			iJournal = true;
 		}
-		else if(qName.equalsIgnoreCase("url")){
+		else if(qName.equalsIgnoreCase("url") && iPub){
 			iURL = true;
 		}
+
 	}
 
 	public void characters(char ch[], int start, int length) throws SAXException{
