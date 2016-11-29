@@ -5,11 +5,12 @@ import org.xml.sax.*;
 import org.xml.sax.helpers.*;
 
 class QueryEngine{
-	HashMap<Publication, Integer> currentPublications;
+	ArrayList<Publication> currentPublications;
 	TreeMap<String, Integer> allAuthors;
 	TreeMap<String, String> aliasMap;
 
 	public QueryEngine() throws Exception{
+		currentPublications = new ArrayList<Publication>();
 		System.setProperty("jdk.xml.entityExpansionLimit", "0");
 		currentPublications = new HashMap<Publication, Integer>();
 		aliasMap = new TreeMap<String, String>(); 
@@ -52,16 +53,17 @@ class QueryEngine{
 		currentPublications = null;
 		currentPublications = parser.getList();
 		int j=0;
-		// for(Publication p: currentPublications.keySet()){
-		// 	if(currentPublications.get(p) > 1){
-		// 		System.out.print(p);
-		// 		System.out.println("Relevance: "+currentPublications.get(p)+"\n");
-		// 		j += 1;
-		// 		if(j == 10){
-		// 			break;
-		// 		}
-		// 	}
-		// }
+		Collections.sort(currentPublications);
+		for(Publication p: currentPublications){
+			if(p.relevance >= 1){
+				System.out.print(p);
+				System.out.println("Relevance: "+p.relevance+"\n");
+				j += 1;
+				if(j == 10){
+					break;
+				}
+			}
+		}
 	}
 
 	public void publicationsByAuthor(String author) throws Exception{
@@ -86,6 +88,7 @@ class QueryEngine{
 			xmlReader.parse("dblp.xml");
 			currentPublications = null;
 			currentPublications = parser2.getList();
+			Collections.sort(currentPublications);
 			// System.out.println(currentPublications.size());
 			// for(Publication p: currentPublications.keySet()){
 			// 	System.out.println(p);

@@ -1,13 +1,13 @@
 import java.io.*;
 import java.util.*;
 
-class Publication{
+class Publication implements Comparable<Publication>{
 	String title, journal, url, pages, key, volume, type;
-	int year;
+	int year, relevance;
 	ArrayList<String> authors;
 
 	public Publication(String type, ArrayList<String> authorsIn, String title, String pages,
-		int year, String volume, String journal, String url, String key){
+		int year, String volume, String journal, String url, String key, int relevance){
 
 		this.type = type;
 		authors = new ArrayList<String>();
@@ -16,9 +16,11 @@ class Publication{
 		}
 		this.title = title; this.pages = pages;
 		this.year = year; this.volume = volume;	this.journal = journal;
-		this.url = url;	this.key = key;
+		this.url = url;	this.key = key; this.relevance = relevance;
 	}
-
+	public int compareTo(Publication other){
+		return other.relevance - this.relevance;
+	}
 	public String getTitle(){
 		return title;
 	}

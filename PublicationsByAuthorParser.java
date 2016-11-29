@@ -5,7 +5,7 @@ import org.xml.sax.*;
 import org.xml.sax.helpers.*;
 
 class PublicationsByAuthorParser extends DefaultHandler{
-	HashMap<Publication, Integer> dict;
+	ArrayList<Publication> relevantPubs;
 	String title, journal, volume, url, pages, key, type;
 	int year, relevance;
 	ArrayList<String> authors = new ArrayList<String>();
@@ -20,7 +20,7 @@ class PublicationsByAuthorParser extends DefaultHandler{
 
 	public void startDocument()	throws SAXException{
 		System.out.println("TOP");
-		dict = new HashMap<Publication, Integer>();
+		relevantPubs = new ArrayList<Publication>();	
 		type = title = journal = url = pages = key = "";
 		relevance = 0;
 	}
@@ -120,8 +120,8 @@ class PublicationsByAuthorParser extends DefaultHandler{
 			for(String au: authors){
 				for(String al: byAuthorAliases){
 					if(au.equalsIgnoreCase(al)){
-						Publication pub = new Publication(type, authors, title, pages, year, volume, journal, url, key);
-						dict.put(pub, relevance);
+						Publication pub = new Publication(type, authors, title, pages, year, volume, journal, url, key, relevance);
+						relevantPubs.add(pub);
 					}
 				}
 			}
@@ -161,7 +161,7 @@ class PublicationsByAuthorParser extends DefaultHandler{
 	// 	}
 	// }
 
-	public HashMap<Publication, Integer> getList(){
-		return dict;
+	public ArrayList<Publication> getList(){
+		return relevantPubs;
 	}
 }
