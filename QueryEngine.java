@@ -5,11 +5,11 @@ import org.xml.sax.*;
 import org.xml.sax.helpers.*;
 
 class QueryEngine{
-	HashMap<Publication, Integer> currentPublications;
+	ArrayList<Publication> currentPublications;
 	ArrayList<Person> currentAuthors;
 
 	public QueryEngine(){
-		currentPublications = new HashMap<Publication, Integer>();
+		currentPublications = new ArrayList<Publication>();
 		currentAuthors = new ArrayList<Person>();
 		System.setProperty("jdk.xml.entityExpansionLimit", "0");
 	}
@@ -25,10 +25,11 @@ class QueryEngine{
 		currentPublications = null;
 		currentPublications = parser.getList();
 		int j=0;
-		for(Publication p: currentPublications.keySet()){
-			if(currentPublications.get(p) > 1){
+		Collections.sort(currentPublications);
+		for(Publication p: currentPublications){
+			if(p.relevance >= 1){
 				System.out.print(p);
-				System.out.println("Relevance: "+currentPublications.get(p)+"\n");
+				System.out.println("Relevance: "+p.relevance+"\n");
 				j += 1;
 				if(j == 10){
 					break;
@@ -59,6 +60,7 @@ class QueryEngine{
 			xmlReader.parse("dblp.xml");
 			currentPublications = null;
 			currentPublications = parser2.getList();
+			Collections.sort(currentPublications);
 			// System.out.println(currentPublications.size());
 			// for(Publication p: currentPublications.keySet()){
 			// 	System.out.println(p);
