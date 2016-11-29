@@ -7,12 +7,20 @@ import org.xml.sax.helpers.*;
 class PersonParser extends DefaultHandler{
 	Person person;
 	ArrayList<String> aliases;
-	boolean iPerson = false, iAuthor = false;
+	boolean iPerson = false, iAuthor = false, iAll = false;
 	String byAuthor, key;
+	TreeMap<String, String> tm;
 
 	public PersonParser(String byAuthor){
+		System.setProperty("jdk.xml.entityExpansionLimit", "0");
 		person = new Person();
 		this.byAuthor = byAuthor;
+	}
+
+	public PersonParser(){
+		System.setProperty("jdk.xml.entityExpansionLimit", "0");
+		this.iAll = true;
+		tm = new TreeMap<String, String>();
 	}
 
 	public void startDocument()	throws SAXException{
@@ -45,10 +53,16 @@ class PersonParser extends DefaultHandler{
 	public void endElement(String uri, String localName, String qName) throws SAXException{
 		if(qName.equalsIgnoreCase("www") && key.startsWith("homepages")){
 			iPerson = false;
-			for(String a: aliases){
-				if(byAuthor.equalsIgnoreCase(a)){
-					person = new Person(aliases, key);
-					throw new SAXBreakerException(); // terminate parser
+			if(iAll && aliases.size()>0){
+				for(int i=1; i<aliases.size(); i++){
+					tm.put(aliases.get(i), aliases.get(0));
+				}
+			}else{
+				for(String a: aliases){
+					if(byAuthor.equalsIgnoreCase(a)){
+						person = new Person(aliases, key);
+						throw new SAXBreakerException(); // terminate parser
+					}
 				}
 			}
 		}
@@ -80,5 +94,13 @@ class PersonParser extends DefaultHandler{
 			return null;
 		}
 		return person;
+	}
+
+	public TreeMap<String, String> getPeople(){
+		if(iAll){
+			return tm;
+		}
+		System.out.println("Invalid parser");
+		return null;
 	}
 }

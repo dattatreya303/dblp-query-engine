@@ -143,7 +143,8 @@ class PublicationsByAuthorParser extends DefaultHandler{
 	// 	SAXParserFactory spf = SAXParserFactory.newInstance();
 	//     spf.setNamespaceAware(true);
 	//     SAXParser saxParser = spf.newSAXParser();
-	// 	XMLReader xmlReader = saxParser.getXMLReader();
+	// 	XMLReader xmlReader = saxPars
+	// er.getXMLReader();
 	// 	PublicationsByAuthorParser parser = new PublicationsByAuthorParser();
 	// 	xmlReader.setContentHandler(parser);
 	// 	xmlReader.parse("dblp.xml");
