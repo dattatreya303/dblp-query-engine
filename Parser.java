@@ -122,7 +122,7 @@ class Parser extends DefaultHandler{
 		System.out.println(parser.getList().size());
 		int j=0;
 		for(Publication p: parser.getList()){
-			if(!"article".equals(p.getType())){
+			if("article".equals(p.getType())){
 				System.out.println(p);
 				j += 1;
 				if(j == 10){

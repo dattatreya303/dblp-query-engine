@@ -15,10 +15,10 @@ class PublicationsByTitleParser extends DefaultHandler{
 	boolean iYear = false, iVolume = false, iJournal = false, iURL = false;
 
 	public PublicationsByTitleParser(ArrayList<String> tags){
-		this.tags = new ArrayList<String>();
-		for(String s: tags){
-			this.tags.add(s);
-		}
+		this.tags = tags; //new ArrayList<String>();
+//		for(String s: tags){
+//			this.tags.add(s);
+//		}
 	}
 
 	public void startDocument()	throws SAXException{
@@ -40,26 +40,27 @@ class PublicationsByTitleParser extends DefaultHandler{
 			authors = new ArrayList<String>();
 			// System.out.println(key);
 		}
-		else if(qName.equalsIgnoreCase("author") || qName.equalsIgnoreCase("editor")){
+		else if((qName.equalsIgnoreCase("author") || qName.equalsIgnoreCase("editor")) && iPub){
 			iAuthor = true;
 		}
-		else if(qName.equalsIgnoreCase("title")){
+		else if(qName.equalsIgnoreCase("title") && iPub){
 			iTitle = true;
 		}
-		else if(qName.equalsIgnoreCase("pages")){
+		else if(qName.equalsIgnoreCase("pages") && iPub){
 			iPages = true;
 		}
-		else if(qName.equalsIgnoreCase("year")){
+		else if(qName.equalsIgnoreCase("year") && iPub){
+		//	System.out.println("iyear trues qname : " + qName);
 			iYear = true;
 		}
-		else if(qName.equalsIgnoreCase("volume")){
+		else if(qName.equalsIgnoreCase("volume") && iPub){
 			iVolume = true;
 		}
-		else if(qName.equalsIgnoreCase("journal") || qName.equalsIgnoreCase("booktitle")){
-			// System.out.println("$$");
+		else if((qName.equalsIgnoreCase("journal") || qName.equalsIgnoreCase("booktitle")) && iPub){
+		//	 System.out.println("iJournal true coz qname is "+qName);
 			iJournal = true;
 		}
-		else if(qName.equalsIgnoreCase("url")){
+		else if(qName.equalsIgnoreCase("url") && iPub){
 			iURL = true;
 		}
 	}
@@ -93,8 +94,10 @@ class PublicationsByTitleParser extends DefaultHandler{
 		else if(iPub && iYear){
 			try{
 				this.year = Integer.parseInt(t);
+		//		System.out.println("Successful year: " + this.year);
 			}catch(Exception e){
-				System.out.println(type);
+				e.printStackTrace();
+				System.out.println("year exception " + type);
 				System.out.println(key);
 				System.out.println(title);
 				System.out.println(authors.size());
@@ -111,7 +114,7 @@ class PublicationsByTitleParser extends DefaultHandler{
 		else if(iPub && iJournal){
 			this.journal = t;
 			iJournal = false;
-			// System.out.println("^^");
+		//	System.out.println("^^"+t);
 		}
 		else if(iPub && iURL){
 			this.url = t;
@@ -158,8 +161,8 @@ class PublicationsByTitleParser extends DefaultHandler{
 		System.out.println(parser.getList().size());
 		int j=0;
 		for(Publication p: parser.getList().keySet()){
-			System.out.println(p);
-			System.out.println("Relevance: "+parser.getList().get(p));
+			System.out.print(p);
+			System.out.println("Relevance: "+parser.getList().get(p)+"\n");
 			j += 1;
 			if(j == 10){
 				break;
