@@ -3,10 +3,12 @@ import javax.swing.*;
 
 class QueryPanel extends JPanel{
 
-	private JComboBox<String> queryBox;
-	private JComboBox<String> searchBy;
+	private JComboBox<String> queryBox, searchBy;
 	private JTextField nameTitle, sinceYear, customRangeLower, customRangeUpper;
 	private JLabel nameTitleTag, sinceYearTag, customRangeTag;
+	private ButtonGroup sortBy;
+	private JRadioButton sortByYear, sortByRelevance;
+	private JButton search;
 	public static final int MESSAGE_X = 85;
 	public static final int MESSAGE_Y = 150;
 	private static final int DEFAULT_WIDTH = 350;
@@ -26,6 +28,12 @@ class QueryPanel extends JPanel{
 		searchBy = new JComboBox<String>();
 		searchBy.addItem("Author");
 		searchBy.addItem("Title");
+		sortBy = new ButtonGroup();
+		sortByYear = new JRadioButton("Sort by year", false);
+		sortByRelevance = new JRadioButton("Sort by relevance", true);
+		sortBy.add(sortByRelevance);
+		sortBy.add(sortByYear);
+		search = new JButton("Search");
 		add(queryBox);
 		add(searchBy);
 		add(nameTitleTag);
@@ -35,6 +43,9 @@ class QueryPanel extends JPanel{
 		add(customRangeTag);
 		add(customRangeLower);
 		add(customRangeUpper);
+		add(sortByRelevance);
+		add(sortByYear);
+		add(search);
 		setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 	}
 	public void paintComponent(Graphics g){
