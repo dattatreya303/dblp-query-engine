@@ -74,15 +74,12 @@ class PublicationsByAuthorParser extends DefaultHandler{
 		if(iPub && iAuthor){
 			// System.out.print(this.authors);
 			this.authors.add(t);
-			iAuthor = false;
 		}
 		else if(iPub && iTitle){
 			this.title = t;
-			iTitle = false;
 		}
 		else if(iPub && iPages){
 			this.pages = t;
-			iPages = false;
 		}
 		else if(iPub && iYear){
 			try{
@@ -96,20 +93,16 @@ class PublicationsByAuthorParser extends DefaultHandler{
 				System.out.println(year);
 				System.exit(0);
 			}
-			iYear = false;
 		}
 		else if(iPub && iVolume){
 			this.volume = t;
-			iVolume = false;
 		}
 		else if(iPub && iJournal){
 			this.journal = t;
-			iJournal = false;
 			// System.out.println("^^");
 		}
 		else if(iPub && iURL){
 			this.url = t;
-			iURL = false;
 		}
 	}
 
@@ -134,7 +127,29 @@ class PublicationsByAuthorParser extends DefaultHandler{
 			authors = null;
 			type = title = journal = url = pages = key = "";
 			relevance = 0;
-			iAuthor = iTitle = iPages = iYear = iVolume = iJournal = iURL = false;
+		}
+		else if((qName.equalsIgnoreCase("author") || qName.equalsIgnoreCase("editor")) && iPub){
+			iAuthor = false;
+		}
+		else if(qName.equalsIgnoreCase("title") && iPub){
+			iTitle = false;
+		}
+		else if(qName.equalsIgnoreCase("pages") && iPub){
+			iPages = false;
+		}
+		else if(qName.equalsIgnoreCase("year") && iPub){
+		//	System.out.println("iyear trues qname : " + qName);
+			iYear = false;
+		}
+		else if(qName.equalsIgnoreCase("volume") && iPub){
+			iVolume = false;
+		}
+		else if((qName.equalsIgnoreCase("journal") || qName.equalsIgnoreCase("booktitle")) && iPub){
+		//	 System.out.println("iJournal true coz qname is "+qName);
+			iJournal = false;
+		}
+		else if(qName.equalsIgnoreCase("url") && iPub){
+			iURL = false;
 		}
 	}
 

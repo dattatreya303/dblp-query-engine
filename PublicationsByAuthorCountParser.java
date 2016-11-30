@@ -48,7 +48,6 @@ class PublicationsByAuthorCountParser extends DefaultHandler{
 		if(iPub && iAuthor){
 			// System.out.print(this.authors);
 			this.authors.add(t);
-			iAuthor = false;
 		}
 	}
 
@@ -73,6 +72,8 @@ class PublicationsByAuthorCountParser extends DefaultHandler{
 			}
 
 			authors = null;
+		}
+		else if(qName.equalsIgnoreCase("author") && iPub){
 			iAuthor = false;
 		}
 	}

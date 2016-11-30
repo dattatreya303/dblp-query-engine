@@ -190,6 +190,16 @@ class QueryEngine{
 		}
 	}
 
+	public ArrayList<Publication> betweenYears(int y1, int y2){
+		ArrayList<Publication> newpubs = new ArrayList<Publication>();
+		for(Publication p: currentPublications){
+			if(p.getYear() >= y1 && p.getYear() <= y2){
+				newpubs.add(p);
+			}
+		}
+		return newpubs;
+	}
+
 	public ArrayList<Publication> getCurrentPublications(){
 		return currentPublications;
 	}

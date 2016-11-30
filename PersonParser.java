@@ -53,7 +53,6 @@ class PersonParser extends DefaultHandler{
 		if(iAuthor && iPerson){
 			// System.out.print(this.authors);
 			this.aliases.add(t);
-			iAuthor = false;
 		}
 	}
 
@@ -64,9 +63,9 @@ class PersonParser extends DefaultHandler{
 				allA.put(aliases.get(0), 0);
 				for(int i=1; i<aliases.size(); i++){
 					tm.put(aliases.get(i), aliases.get(0));
-					if(aliases.get(0).equalsIgnoreCase("C. J. van Rijsbergen")){
-						System.out.println(aliases);
-					}
+					// if(aliases.get(0).equalsIgnoreCase("C. J. van Rijsbergen")){
+					// 	System.out.println(aliases);
+					// }
 				}
 			}else{
 				for(String a: aliases){
@@ -76,6 +75,9 @@ class PersonParser extends DefaultHandler{
 					}
 				}
 			}
+		}
+		else if(qName.equalsIgnoreCase("author") && iPerson){
+			iAuthor = false;
 		}
 	}
 
