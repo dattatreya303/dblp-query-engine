@@ -160,7 +160,16 @@ class QueryEngine{
 			if(pi.getYear() >= year-10 && pi.getYear() <= year+1){
 				pubsPerYear.add(c);
 			}
+			Collections.reverse(pubsPerYear);
 			System.out.println(pubsPerYear);
+			int prev = 3 + (int)(Math.random()*5), sum = 0;
+			for(i = 1; i <= prev; i++){
+				sum += pubsPerYear.get(i);
+			}
+			int avg = sum/prev;
+			int ans = (int)(Math.random()*(pubsPerYear.get(1)*prev - sum);
+			double answer = ans/(double)prev;
+			System.out.println("Mera answer : " + answer + "  Actual pubs: " + pubsPerYear.get(0));
 		}
 		else{
 			System.out.println("Author not found");
