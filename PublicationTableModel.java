@@ -23,14 +23,14 @@ class PublicationTableModel extends AbstractTableModel{
     public String getColumnName(int col){
         String s  = "";
         switch(col){
-        	case 0:	s = "SNo";
-        	case 1:	s = "Authors";
-        	case 2:	s = "Title";
-        	case 3:	s = "Pages";
-        	case 4:	s = "Year";
-        	case 5:	s = "Volume";
-        	case 6:	s = "Journal/Booktitle";
-        	case 7:	s = "URL";
+        	case 0:	s = "SNo"; break;
+        	case 1:	s = "Authors"; break;
+        	case 2:	s = "Title"; break;
+        	case 3:	s = "Pages"; break;
+        	case 4:	s = "Year"; break;
+        	case 5:	s = "Volume"; break;
+        	case 6:	s = "Journal/Booktitle"; break;
+        	case 7:	s = "URL"; break;
         }
         return s;
     }
@@ -39,14 +39,14 @@ class PublicationTableModel extends AbstractTableModel{
         Publication p = pubs.get(row);
         Object o = new Object();
         switch(col){
-        	case 0:	o = row+1;
-        	case 1:	o = p.getAuthors();
-        	case 2:	o = p.getTitle();
-        	case 3:	o = p.getPages();
-        	case 4:	o = p.getYear();
-        	case 5:	o = p.getVolume();
-        	case 6:	o = p.getJournal();
-        	case 7:	o = p.getURL(); 
+        	case 0:	o = row+1; break;
+        	case 1:	o = p.getAuthors(); break;
+        	case 2:	o = p.getTitle(); break;
+        	case 3:	o = p.getPages(); break;
+        	case 4:	o = p.getYear(); break;
+        	case 5:	o = p.getVolume(); break;
+        	case 6:	o = p.getJournal(); break;
+        	case 7:	o = p.getURL(); break; 
         }
         return o;
     }

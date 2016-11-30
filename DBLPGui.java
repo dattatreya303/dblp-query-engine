@@ -9,6 +9,14 @@ class DBLPGui{
 	private RPanel resultPanel;
 	private QueryEngine qe;
 
+	public QueryEngine getQueryEngine(){
+		return qe;
+	}
+
+	public RPanel getRPanel(){
+		return resultPanel;
+	}
+
 	public DBLPGui(QueryEngine qe) throws Exception{
 		this.qe = qe;
 		prepareGUI();
@@ -16,14 +24,15 @@ class DBLPGui{
 	}
 
 	public void prepareGUI() throws Exception{
-		queryPanel = new QueryPanel(qe);
-		resultPanel = new RPanel(qe.getCurrentPublications());
+		queryPanel = new QueryPanel(this);
+		resultPanel = new RPanel(this);
 	}
 
 	public void startApp(){
 		topFrame = new JFrame("DBLP Database");
 		topFrame.setLayout(new BorderLayout());
-		topFrame.setSize(topFrame.getMaximumSize());
+		//topFrame.setSize(topFrame.getMaximumSize());
+		topFrame.setSize(500, 500);
 		topFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		topFrame.setVisible(true);
 		topFrame.add(queryPanel, BorderLayout.WEST);

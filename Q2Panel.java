@@ -9,17 +9,18 @@ class Q2Panel extends QPanel{
 
 	private static Q2Panel instance = null;
 	
-	private Q2Panel(QueryEngine qe){
+	private Q2Panel(DBLPGui qe){
 		super(qe);
+		setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
 		noPubsTag = new JLabel("No. of publications: ");
-		noPubsTag.setMaximumSize(noPubsTag.getPreferredSize());
+		// noPubsTag.setMaximumSize(noPubsTag.getPreferredSize());
 		noPubs = new JTextField(20);
-		noPubs.setMaximumSize(noPubs.getPreferredSize());
+		// noPubs.setMaximumSize(noPubs.getPreferredSize());
 		add(noPubsTag);
 		add(noPubs);
 	}
 
-	public static Q2Panel getInstance(QueryEngine qe){
+	public static Q2Panel getInstance(DBLPGui qe){
 		if(instance == null){
 			instance =  new Q2Panel(qe);
 		}
@@ -27,7 +28,9 @@ class Q2Panel extends QPanel{
 	}
 
 	public void search(){
-		QueryEngine qe = getEngine();
+		QueryEngine qe = getEngine().getQueryEngine();
+		RPanel r = getEngine().getRPanel();
 		qe.authorByPublications(Integer.parseInt(noPubs.getText()));
+		r.setAuthList(qe.getCurrentAuthors());
 	}
 }

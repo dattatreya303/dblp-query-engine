@@ -10,6 +10,7 @@ class QueryEngine{
 	TreeMap<String, String> aliasMap;
 	ArrayList<String> currentAuthors;
 
+
 	public QueryEngine() throws Exception{
 		currentPublications = new ArrayList<Publication>();
 		System.setProperty("jdk.xml.entityExpansionLimit", "0");
@@ -52,6 +53,7 @@ class QueryEngine{
 		xmlReader.parse("dblp.xml");
 		currentPublications = null;
 		currentPublications = parser.getList();
+		System.out.println(currentPublications);
 		int j=0;
 		// Collections.sort(currentPublications);
 		// for(Publication p: currentPublications){
@@ -89,10 +91,10 @@ class QueryEngine{
 			currentPublications = null;
 			currentPublications = parser2.getList();
 			Collections.sort(currentPublications);
-			// System.out.println(currentPublications.size());
-			// for(Publication p: currentPublications.keySet()){
-			// 	System.out.println(p);
-			// }
+			System.out.println(currentPublications.size());
+			for(Publication p: currentPublications){
+				System.out.println(p);
+			}
 		}
 		else{
 			System.out.println("Author not found");

@@ -11,26 +11,27 @@ class Q1Panel extends QPanel{
 	
 	private static Q1Panel instance = null;
 
-	private Q1Panel(QueryEngine qe){
+	private Q1Panel(DBLPGui qe){
 		super(qe);
+		setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
 		JLabel nameTitleTag, sinceYearTag, customRangeTag;
 		
 		searchBy = new JComboBox<String>();
 		searchBy.addItem("Author");
 		searchBy.addItem("Title");
-		searchBy.setMaximumSize(searchBy.getPreferredSize());
+		// searchBy.setMaximumSize(searchBy.getPreferredSize());
 
 		nameTitleTag = new JLabel("Name/Title tags: ");
 		sinceYearTag = new JLabel("Since year: ");
 		customRangeTag = new JLabel("Custom range: ");
 		nameTitle = new JTextField(20);
-		nameTitle.setMaximumSize(nameTitle.getPreferredSize());
+		// nameTitle.setMaximumSize(nameTitle.getPreferredSize());
 		sinceYear = new JTextField(4);
-		sinceYear.setMaximumSize(sinceYear.getPreferredSize());
+		// sinceYear.setMaximumSize(sinceYear.getPreferredSize());
 		customRangeLower = new JTextField(4);
-		customRangeLower.setMaximumSize(customRangeLower.getPreferredSize());
+		// customRangeLower.setMaximumSize(customRangeLower.getPreferredSize());
 		customRangeUpper = new JTextField(4);
-		customRangeUpper.setMaximumSize(customRangeUpper.getPreferredSize());
+		// customRangeUpper.setMaximumSize(customRangeUpper.getPreferredSize());
 
 		JPanel temp = new JPanel();
 		temp.setLayout(new BoxLayout(temp, BoxLayout.PAGE_AXIS));
@@ -53,7 +54,7 @@ class Q1Panel extends QPanel{
 		add(temp);
 	}
 
-	public static Q1Panel getInstance(QueryEngine qe){
+	public static Q1Panel getInstance(DBLPGui qe){
 		if(instance == null){
 			instance = new Q1Panel(qe);
 		}
@@ -61,11 +62,14 @@ class Q1Panel extends QPanel{
 	}
 
 	public void search() throws Exception{
-		QueryEngine qe = getEngine();
+		QueryEngine qe = getEngine().getQueryEngine();
+		RPanel r = getEngine().getRPanel();
 		if(searchBy.getSelectedItem().equals("Title")){
 			qe.publicationsByTitle(nameTitle.getText().split("\\s+"));
+			r.setPubList(qe.getCurrentPublications());
 		}else{
 			qe.publicationsByAuthor(nameTitle.getText());
+			r.setPubList(qe.getCurrentPublications());
 		}
 		if(sortByRelevance.isSelected()){
 			qe.sortByRelevance();

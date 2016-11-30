@@ -24,8 +24,8 @@ class AuthorTableModel extends AbstractTableModel{
     public String getColumnName(int col) {
         String s = "";
         switch(col){
-        	case 0:	s = "SNo";
-        	case 1:	s = "Author";
+        	case 0:	s = "SNo"; break;
+        	case 1:	s = "Author"; break;
         }
         return s;
     }
@@ -34,8 +34,8 @@ class AuthorTableModel extends AbstractTableModel{
         String p = authors.get(row);
         Object o = new Object();
         switch(col){
-        	case 0:	o = row+1;
-        	case 1:	o = p;
+        	case 0:	o = row+1; break;
+        	case 1:	o = p; break;
         }
         return o;
     }

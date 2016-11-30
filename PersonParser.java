@@ -35,7 +35,7 @@ class PersonParser extends DefaultHandler{
 				iPerson = true;
 			}
 		}
-		else if(qName.equalsIgnoreCase("author")){
+		else if(qName.equalsIgnoreCase("author") && iPerson){
 			iAuthor = true;
 		}
 	}

@@ -9,14 +9,16 @@ class QueryPanel extends JPanel{
 	private JPanel basePanel;
 	private JButton search;
 	private QPanel currentQPanel;
-	private QueryEngine qe;
+	private DBLPGui qe;
 	
 	// public static final int MESSAGE_X = 85;
 	// public static final int MESSAGE_Y = 150;
 	// private static final int DEFAULT_WIDTH = 350;
 	// private static final int DEFAULT_HEIGHT = 500;
 	
-	QueryPanel(QueryEngine qe) throws Exception{
+	QueryPanel(DBLPGui aqe) throws Exception{
+		setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
+		qe = aqe;
 		basePanel = new JPanel();
 		search = new JButton();
 
@@ -43,9 +45,9 @@ class QueryPanel extends JPanel{
 				}
 			}
 		});
-		queryBox.setMaximumSize(queryBox.getPreferredSize());
+		// queryBox.setMaximumSize(queryBox.getPreferredSize());
 
-		search = new JButton();
+		search = new JButton("Search");
 		search.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e){
 				try{

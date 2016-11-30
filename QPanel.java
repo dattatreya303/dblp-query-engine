@@ -4,11 +4,11 @@ import javax.swing.*;
 import javax.swing.border.*;
 
 abstract class QPanel extends JPanel{
-	QueryEngine qe;
-	public QPanel(QueryEngine qe){
+	DBLPGui qe;
+	public QPanel(DBLPGui qe){
 		this.qe = qe;
 	}
-	public QueryEngine getEngine(){
+	public DBLPGui getEngine(){
 		return qe;
 	}
 	public abstract void search() throws Exception;
