@@ -64,6 +64,9 @@ class PersonParser extends DefaultHandler{
 				allA.put(aliases.get(0), 0);
 				for(int i=1; i<aliases.size(); i++){
 					tm.put(aliases.get(i), aliases.get(0));
+					if(aliases.get(0).equalsIgnoreCase("C. J. van Rijsbergen")){
+						System.out.println(aliases);
+					}
 				}
 			}else{
 				for(String a: aliases){
