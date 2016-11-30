@@ -39,7 +39,8 @@ class Q3Panel extends QPanel{
 	public void search() throws Exception{
 		QueryEngine qe = getEngine().getQueryEngine();
 		RPanel r = getEngine().getRPanel();
-		qe.predictPublications(author.getText(), Integer.parseInt(year.getText()));
+		double answer = qe.predictPublications(author.getText(), Integer.parseInt(year.getText()));
+		r.getOutBox().setText("Prediction: "+answer);
 		// qe.authorByPublications(Integer.parseInt(noPubs.getText()));
 		r.setYearList(qe.getPubsPerYear());
 	}

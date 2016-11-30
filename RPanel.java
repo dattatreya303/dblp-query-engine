@@ -35,7 +35,7 @@ class RPanel extends JPanel{
 		JScrollPane scrollPane = new JScrollPane(table);
 		table.setFillsViewportHeight(true);
 		
-				prevB = new JButton("Previous");
+		prevB = new JButton("Previous");
 		prevB.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e){
 				cpage--;
@@ -57,6 +57,10 @@ class RPanel extends JPanel{
 		add(outBox);
 		add(scrollPane);
 		add(navPanel);
+	}
+
+	public JLabel getOutBox(){
+		return outBox;
 	}
 
 	public void setPubList(ArrayList<Publication> pubs){
@@ -91,7 +95,7 @@ class RPanel extends JPanel{
 		this.pubsPerYear = pubsPerYear;
 		ytmodel = new YearTableModel(pubsPerYear);
 		cmodel = ytmodel;
-		outBox.setText("Prediction: "+pubsPerYear.get(pubsPerYear.size()-1));
+		// outBox.setText("Prediction: "+pubsPerYear.get(pubsPerYear.size()-1));
 		EventQueue.invokeLater(new Runnable(){
 			public void run(){
 				table.setModel(ytmodel);

@@ -11,7 +11,7 @@ import javax.swing.border.*;
 class Q1Panel extends QPanel{
 	private JTextField nameTitle, sinceYear, customRangeLower, customRangeUpper;
 	private ButtonGroup sortBy;
-	private JRadioButton sortByYear, sortByRelevance;
+	private JRadioButton sortByYear, revSortByYear, sortByRelevance;
 	private JComboBox<String> searchBy;
 	
 	private static Q1Panel instance = null;
@@ -43,10 +43,13 @@ class Q1Panel extends QPanel{
 		sortBy = new ButtonGroup();
 		sortByYear = new JRadioButton("Sort by year", false);
 		sortByRelevance = new JRadioButton("Sort by relevance", true);
+		revSortByYear = new JRadioButton("Sort by year (reverse)", false);
 		sortBy.add(sortByRelevance);
 		sortBy.add(sortByYear);
+		sortBy.add(revSortByYear);
 		temp.add(sortByRelevance);
 		temp.add(sortByYear);
+		temp.add(revSortByYear);
 
 		add(searchBy);
 		add(nameTitleTag);
@@ -78,8 +81,10 @@ class Q1Panel extends QPanel{
 		}
 		if(sortByRelevance.isSelected()){
 			qe.sortByRelevance();
-		}else{
+		}else if(sortByYear.isSelected()){
 			qe.sortByYear(1);
+		}else{
+			qe.sortByYear(0);
 		}
 	}
 }

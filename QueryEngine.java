@@ -117,7 +117,7 @@ class QueryEngine{
 		return currentAuthors;
 	}
 
-	public void predictPublications(String author, int year) throws Exception{
+	public double predictPublications(String author, int year) throws Exception{
 		SAXParserFactory spf = SAXParserFactory.newInstance();
 	    spf.setNamespaceAware(true);
 	    SAXParser saxParser = spf.newSAXParser();
@@ -162,17 +162,20 @@ class QueryEngine{
 			}
 			Collections.reverse(pubsPerYear);
 			System.out.println(pubsPerYear);
-			int prev = 3 + (int)(Math.random()*5), sum = 0;
+			prev = 3 + (int)(Math.random()*5);
+			int sum = 0;
 			for(i = 1; i <= prev; i++){
 				sum += pubsPerYear.get(i);
 			}
 			int avg = sum/prev;
-			int ans = (int)(Math.random()*(pubsPerYear.get(1)*prev - sum);
-			double answer = ans/(double)prev;
-			System.out.println("Mera answer : " + answer + "  Actual pubs: " + pubsPerYear.get(0));
+			int ans = (int)(Math.random()*(pubsPerYear.get(1)*prev - sum));
+			double answer = (ans+sum)/(double)prev;
+			return answer;
+			// System.out.println("Mera answer : " + answer + "  Actual pubs: " + pubsPerYear.get(0));
 		}
 		else{
 			System.out.println("Author not found");
+			return -1;
 		}
 	}
 
@@ -190,11 +193,9 @@ class QueryEngine{
 	public ArrayList<Publication> getCurrentPublications(){
 		return currentPublications;
 	}
-
 	public ArrayList<String> getCurrentAuthors(){
 		return currentAuthors;
 	}
-
 	public ArrayList<Integer> getPubsPerYear(){
 		return pubsPerYear;
 	}
