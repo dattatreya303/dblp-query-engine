@@ -1,3 +1,8 @@
+/*
+Dattatreya Mohapatra, 2015021
+Harshit Sharma, 2015036
+*/
+
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
@@ -10,9 +15,11 @@ class RPanel extends JPanel{
 	private JTable table;
 	private PublicationTableModel ptmodel;
 	private AuthorTableModel atmodel;
+	private YearTableModel ytmodel;
 	private TableModel cmodel;
 	private ArrayList<Publication> pubs;
 	private ArrayList<String> auts;
+	private ArrayList<Integer> pubsPerYear;
 	private DBLPGui dblpGUI;
 	private JButton nextB, prevB;
 	int cpage = 0;
@@ -25,8 +32,10 @@ class RPanel extends JPanel{
 		//ptmodel = new PublicationTableModel(pubs);
 		atmodel = new AuthorTableModel(auts);
 		table = new JTable();
+		JScrollPane scrollPane = new JScrollPane(table);
+		table.setFillsViewportHeight(true);
 		
-		prevB = new JButton("Previous");
+				prevB = new JButton("Previous");
 		prevB.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e){
 				cpage--;
@@ -41,10 +50,13 @@ class RPanel extends JPanel{
 			}
 		});
 
+		JPanel navPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
+		navPanel.add(prevB);
+		navPanel.add(nextB);
+
 		add(outBox);
-		add(table);
-		add(prevB);
-		add(nextB);
+		add(scrollPane);
+		add(navPanel);
 	}
 
 	public void setPubList(ArrayList<Publication> pubs){
@@ -69,6 +81,20 @@ class RPanel extends JPanel{
 		EventQueue.invokeLater(new Runnable(){
 			public void run(){
 				table.setModel(atmodel);
+				cpage = 0;
+				showPage(0);
+			}
+		});
+	}
+
+	public void setYearList(ArrayList<Integer> pubsPerYear){
+		this.pubsPerYear = pubsPerYear;
+		ytmodel = new YearTableModel(pubsPerYear);
+		cmodel = ytmodel;
+		outBox.setText("Prediction: "+pubsPerYear.get(pubsPerYear.size()-1));
+		EventQueue.invokeLater(new Runnable(){
+			public void run(){
+				table.setModel(ytmodel);
 				cpage = 0;
 				showPage(0);
 			}

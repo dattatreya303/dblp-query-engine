@@ -1,3 +1,8 @@
+/*
+Dattatreya Mohapatra, 2015021
+Harshit Sharma, 2015036
+*/
+
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
@@ -74,7 +79,7 @@ class Q1Panel extends QPanel{
 		if(sortByRelevance.isSelected()){
 			qe.sortByRelevance();
 		}else{
-			// qe.sortByYear(1);
+			qe.sortByYear(1);
 		}
 	}
 }

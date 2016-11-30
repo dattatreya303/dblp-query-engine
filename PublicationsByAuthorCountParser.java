@@ -1,3 +1,8 @@
+/*
+Dattatreya Mohapatra, 2015021
+Harshit Sharma, 2015036
+*/
+
 import java.io.*;
 import java.util.*;
 import javax.xml.parsers.*;
@@ -12,13 +17,10 @@ class PublicationsByAuthorCountParser extends DefaultHandler{
 	
 	boolean iPub = false, iAuthor = false;
 	
-	public PublicationsByAuthorCountParser(TreeMap<String, String> aliasMap){
+	public PublicationsByAuthorCountParser(TreeMap<String, String> aliasMap, TreeMap<String, Integer> allAuthors){
 		System.setProperty("jdk.xml.entityExpansionLimit", "0");
 		this.aliasMap = aliasMap;
-		allAuthors = new TreeMap<String, Integer>();
-		for(String s: aliasMap.values()){
-			allAuthors.put(s, 0);
-		}
+		this.allAuthors = allAuthors;
 	}
 
 	public void startDocument()	throws SAXException{
@@ -66,7 +68,7 @@ class PublicationsByAuthorCountParser extends DefaultHandler{
 					allAuthors.put(aliasMap.get(au), allAuthors.get(aliasMap.get(au)) + 1);
 				}
 				else{
-					allAuthors.put(au, 1);
+					// allAuthors.put(au, 1);
 				}
 			}
 

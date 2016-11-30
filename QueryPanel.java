@@ -1,3 +1,8 @@
+/*
+Dattatreya Mohapatra, 2015021
+Harshit Sharma, 2015036
+*/
+
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
@@ -25,6 +30,7 @@ class QueryPanel extends JPanel{
 		queryBox = new JComboBox<String>();
 		queryBox.addItem("Query1");
 		queryBox.addItem("Query2");
+		queryBox.addItem("Query3");
 		queryBox.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e){
 				JComboBox m = (JComboBox)e.getSource();
@@ -43,8 +49,15 @@ class QueryPanel extends JPanel{
 					basePanel.revalidate();
 					currentQPanel = Q2Panel.getInstance(qe);
 				}
+				else{
+					basePanel.removeAll();
+					basePanel.add(Q3Panel.getInstance(qe));
+					basePanel.revalidate();
+					currentQPanel = Q3Panel.getInstance(qe);
+				}
 			}
 		});
+		queryBox.setSelectedIndex(0);
 		// queryBox.setMaximumSize(queryBox.getPreferredSize());
 
 		search = new JButton("Search");
@@ -58,10 +71,12 @@ class QueryPanel extends JPanel{
 				}
 			}
 		});
+		JPanel sPanel = new JPanel();
+		sPanel.add(search);
 
 		add(queryBox);
 		add(basePanel);
-		add(search);
+		add(sPanel);
 
 	}
 }

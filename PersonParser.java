@@ -1,3 +1,8 @@
+/*
+Dattatreya Mohapatra, 2015021
+Harshit Sharma, 2015036
+*/
+
 import java.io.*;
 import java.util.*;
 import javax.xml.parsers.*;
@@ -10,6 +15,7 @@ class PersonParser extends DefaultHandler{
 	boolean iPerson = false, iAuthor = false, iAll = false;
 	String byAuthor, key;
 	TreeMap<String, String> tm;
+	TreeMap<String, Integer> allA;
 
 	public PersonParser(String byAuthor){
 		System.setProperty("jdk.xml.entityExpansionLimit", "0");
@@ -21,6 +27,7 @@ class PersonParser extends DefaultHandler{
 		System.setProperty("jdk.xml.entityExpansionLimit", "0");
 		this.iAll = true;
 		tm = new TreeMap<String, String>();
+		allA = new TreeMap<String, Integer>();
 	}
 
 	public void startDocument()	throws SAXException{
@@ -54,6 +61,7 @@ class PersonParser extends DefaultHandler{
 		if(qName.equalsIgnoreCase("www") && key.startsWith("homepages")){
 			iPerson = false;
 			if(iAll && aliases.size()>0){
+				allA.put(aliases.get(0), 0);
 				for(int i=1; i<aliases.size(); i++){
 					tm.put(aliases.get(i), aliases.get(0));
 				}
@@ -72,28 +80,15 @@ class PersonParser extends DefaultHandler{
 		System.out.println("BOTTOM");
 	}
 
-	// public static void main(String[] args) throws Exception{
-	// 	System.setProperty("jdk.xml.entityExpansionLimit", "0");
-
-	// 	SAXParserFactory spf = SAXParserFactory.newInstance();
-	//     spf.setNamespaceAware(true);
-	//     SAXParser saxParser = spf.newSAXParser();
-	// 	XMLReader xmlReader = saxParser.getXMLReader();
-	// 	PersonParser parser = new PersonParser("abcd");
-	// 	xmlReader.setContentHandler(parser);
-	// 	try{
-	// 		xmlReader.parse("dblp.xml");
-	// 	}
-	// 	catch(SAXBreakerException s){
-	// 		System.out.println(parser.getPerson());
-	// 	}
-	// }
-
 	public Person getPerson(){
 		if("".equals(person.getKey())){
 			return null;
 		}
 		return person;
+	}
+
+	public TreeMap<String, Integer> getAllAuthors(){
+		return allA;
 	}
 
 	public TreeMap<String, String> getPeople(){

@@ -11,11 +11,11 @@ import java.util.*;
 import javax.swing.table.*;
 import java.util.*;
 
-class AuthorTableModel extends AbstractTableModel{
-	ArrayList<String> authors;
+class YearTableModel extends AbstractTableModel{
+	ArrayList<Integer> years;
 
-	public AuthorTableModel(ArrayList<String> authors){
-		this.authors = authors;
+	public YearTableModel(ArrayList<Integer> years){
+		this.years = years;
 	}
 
 	public int getColumnCount() {
@@ -23,24 +23,24 @@ class AuthorTableModel extends AbstractTableModel{
     }
 
     public int getRowCount() {
-        return authors.size();
+        return years.size();
     }
 
     public String getColumnName(int col) {
         String s = "";
         switch(col){
         	case 0:	s = "SNo"; break;
-        	case 1:	s = "Author"; break;
+        	case 1:	s = "Publications"; break;
         }
         return s;
     }
 
     public Object getValueAt(int row, int col) {
-        String p = authors.get(row);
+        Integer p = years.get(row);
         Object o = new Object();
         switch(col){
         	case 0:	o = row+1; break;
-        	case 1:	o = p; break;
+        	case 1:	o = years.get(row); break;
         }
         return o;
     }

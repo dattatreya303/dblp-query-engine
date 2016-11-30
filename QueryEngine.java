@@ -1,3 +1,8 @@
+/*
+Dattatreya Mohapatra, 2015021
+Harshit Sharma, 2015036
+*/
+
 import java.io.*;
 import java.util.*;
 import javax.xml.parsers.*;
@@ -9,7 +14,7 @@ class QueryEngine{
 	TreeMap<String, Integer> allAuthors;
 	TreeMap<String, String> aliasMap;
 	ArrayList<String> currentAuthors;
-
+	ArrayList<Integer> pubsPerYear;
 
 	public QueryEngine() throws Exception{
 		currentPublications = new ArrayList<Publication>();
@@ -25,8 +30,9 @@ class QueryEngine{
 		xmlReader.setContentHandler(parser);
 		xmlReader.parse("dblp.xml");
 		aliasMap = parser.getPeople();
-		System.out.println(aliasMap.size());
-		PublicationsByAuthorCountParser parser2 = new PublicationsByAuthorCountParser(aliasMap);
+		allAuthors = parser.getAllAuthors();
+		// System.out.println(aliasMap.size());
+		PublicationsByAuthorCountParser parser2 = new PublicationsByAuthorCountParser(aliasMap, allAuthors);
 		xmlReader.setContentHandler(parser2);
 		xmlReader.parse("dblp.xml");
 		allAuthors = parser2.getCountMap();
@@ -111,13 +117,54 @@ class QueryEngine{
 		return currentAuthors;
 	}
 
-	public static void main(String[] args) throws Exception{
-		QueryEngine qe = new QueryEngine();
-		// qe.publicationsByAuthor("Peter Henning");
-		// ArrayList<String> temp = new ArrayList<String>();
-		// temp.add("quantum");
-		// temp.add("computing");
-		// qe.publicationsByTitle(temp);
+	public void predictPublications(String author, int year) throws Exception{
+		SAXParserFactory spf = SAXParserFactory.newInstance();
+	    spf.setNamespaceAware(true);
+	    SAXParser saxParser = spf.newSAXParser();
+		XMLReader xmlReader = saxParser.getXMLReader();
+		PersonParser parser = new PersonParser(author);
+		xmlReader.setContentHandler(parser);
+		Person p = new Person();
+		try{
+			xmlReader.parse("dblp.xml");
+		}
+		catch(SAXBreakerException s){
+			p = parser.getPerson();
+		}
+
+		if(!p.getKey().equals("")){
+			PublicationsByAuthorParser parser2 = new PublicationsByAuthorParser(p);
+			xmlReader.setContentHandler(parser2);
+			xmlReader.parse("dblp.xml");
+			currentPublications = null;
+			currentPublications = parser2.getList();
+			Collections.sort(currentPublications, new YearComparator());
+			// System.out.println(currentPublications.size());
+			pubsPerYear = new ArrayList<Integer>();
+			int c = 0, prev = year-10;
+			Publication pi = currentPublications.get(0);
+			int i;
+			for(i=0; i<currentPublications.size(); i++){
+				pi = currentPublications.get(i);
+				if(pi.getYear() >= year-10 && pi.getYear() <= year+1){
+					if(pi.getYear() == prev){
+						c++;
+					}
+					else{
+						pubsPerYear.add(c);
+						c = 1;
+						prev = pi.getYear();
+					}
+				}
+			}
+			if(pi.getYear() >= year-10 && pi.getYear() <= year+1){
+				pubsPerYear.add(c);
+			}
+			System.out.println(pubsPerYear);
+		}
+		else{
+			System.out.println("Author not found");
+		}
 	}
 
 	public void sortByRelevance(){
@@ -125,40 +172,11 @@ class QueryEngine{
 	}
 
 	public void sortByYear(int mode){// mode = 0 for reverse sort, 1 for normal
-		// currentPublications.sort(Comparator.comparingInteger(Publication::getYear));
+		Collections.sort(currentPublications, new YearComparator());
 		if(mode == 0){
 			Collections.reverse(currentPublications);
 		}
-
 	}
-
-	// public HashSet<Publication> inBetween(int year1, int year2){
-	// 	Set<Publication> pubs = currentPublications.keySet();
-	// 	Set<Publication> newPubs = new Set<Publication>();
-	// 	Iterator it = pubs.iterator();
-	// 	while(it.hasNext()){
-	// 		Publication pt = it.next();
-	// 		if(pt.getYear() >= year1 && pt.getYear <= year2){
-	// 			newPubs.add(pt);
-	// 		}
-	// 	}
-
-	// 	return newPubs;
-	// }
-
-	// public HashSet<Publication> inBetween(int year1){// since year1
-	// 	HashSet<Publication> pubs = currentPublications.keySet();
-	// 	HashSet<Publication> newPubs = new Set<Publication>();
-	// 	Iterator it = pubs.iterator();
-	// 	while(it.hasNext()){
-	// 		Publication pt = it.next();
-	// 		if(pt.getYear() >= year1){
-	// 			newPubs.add(pt);
-	// 		}
-	// 	}
-
-	// 	return newPubs;
-	// }
 
 	public ArrayList<Publication> getCurrentPublications(){
 		return currentPublications;
@@ -166,5 +184,9 @@ class QueryEngine{
 
 	public ArrayList<String> getCurrentAuthors(){
 		return currentAuthors;
+	}
+
+	public ArrayList<Integer> getPubsPerYear(){
+		return pubsPerYear;
 	}
 }
