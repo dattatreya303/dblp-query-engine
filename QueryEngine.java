@@ -17,8 +17,9 @@ class QueryEngine{
 	ArrayList<Integer> pubsPerYear;
 
 	public QueryEngine() throws Exception{
-		currentPublications = new ArrayList<Publication>();
 		System.setProperty("jdk.xml.entityExpansionLimit", "0");
+		currentAuthors = new ArrayList<String>();
+		currentPublications = new ArrayList<Publication>();
 		aliasMap = new TreeMap<String, String>(); 
 		allAuthors = new TreeMap<String, Integer>();
 

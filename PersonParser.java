@@ -16,6 +16,7 @@ class PersonParser extends DefaultHandler{
 	String byAuthor, key;
 	TreeMap<String, String> tm;
 	TreeMap<String, Integer> allA;
+	String chars = "";
 
 	public PersonParser(String byAuthor){
 		System.setProperty("jdk.xml.entityExpansionLimit", "0");
@@ -43,6 +44,7 @@ class PersonParser extends DefaultHandler{
 			}
 		}
 		else if(qName.equalsIgnoreCase("author") && iPerson){
+			chars = "";
 			iAuthor = true;
 		}
 	}
@@ -52,7 +54,7 @@ class PersonParser extends DefaultHandler{
 		// System.out.println(t);
 		if(iAuthor && iPerson){
 			// System.out.print(this.authors);
-			this.aliases.add(t);
+			chars += t;
 		}
 	}
 
@@ -60,12 +62,16 @@ class PersonParser extends DefaultHandler{
 		if(qName.equalsIgnoreCase("www") && key.startsWith("homepages")){
 			iPerson = false;
 			if(iAll && aliases.size()>0){
+				int f=0;
 				allA.put(aliases.get(0), 0);
 				for(int i=1; i<aliases.size(); i++){
+					if("Philip S. Yu".equalsIgnoreCase(aliases.get(i))){
+						f++;
+					}
 					tm.put(aliases.get(i), aliases.get(0));
-					// if(aliases.get(0).equalsIgnoreCase("C. J. van Rijsbergen")){
-					// 	System.out.println(aliases);
-					// }
+				}
+				if(f > 0){
+					System.out.println(aliases);
 				}
 			}else{
 				for(String a: aliases){
@@ -77,6 +83,10 @@ class PersonParser extends DefaultHandler{
 			}
 		}
 		else if(qName.equalsIgnoreCase("author") && iPerson){
+			if(chars.equalsIgnoreCase("Philip S. Yu")){
+				System.out.println("&&");
+			}
+			this.aliases.add(chars);
 			iAuthor = false;
 		}
 	}
@@ -93,7 +103,11 @@ class PersonParser extends DefaultHandler{
 	}
 
 	public TreeMap<String, Integer> getAllAuthors(){
-		return allA;
+		if(iAll){
+			return allA;
+		}
+		System.out.println("Invalid parser");
+		return null;
 	}
 
 	public TreeMap<String, String> getPeople(){

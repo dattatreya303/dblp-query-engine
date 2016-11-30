@@ -15,6 +15,7 @@ class PublicationsByTitleParser extends DefaultHandler{
 	int year, relevance;
 	ArrayList<String> authors = new ArrayList<String>();
 	String[] tags;
+	String chars = "";
 
 	boolean iPub = false, iAuthor = false, iTitle = false, iPages = false;
 	boolean iYear = false, iVolume = false, iJournal = false, iURL = false;
@@ -43,29 +44,33 @@ class PublicationsByTitleParser extends DefaultHandler{
 			iPub = true;
 			key = attr.getValue("key");
 			authors = new ArrayList<String>();
-			// System.out.println(key);
 		}
 		else if((qName.equalsIgnoreCase("author") || qName.equalsIgnoreCase("editor")) && iPub){
+			chars = "";
 			iAuthor = true;
 		}
 		else if(qName.equalsIgnoreCase("title") && iPub){
+			chars = "";
 			iTitle = true;
 		}
 		else if(qName.equalsIgnoreCase("pages") && iPub){
+			chars = "";
 			iPages = true;
 		}
 		else if(qName.equalsIgnoreCase("year") && iPub){
-		//	System.out.println("iyear trues qname : " + qName);
+			chars = "";
 			iYear = true;
 		}
 		else if(qName.equalsIgnoreCase("volume") && iPub){
+			chars = "";
 			iVolume = true;
 		}
 		else if((qName.equalsIgnoreCase("journal") || qName.equalsIgnoreCase("booktitle")) && iPub){
-		//	 System.out.println("iJournal true coz qname is "+qName);
+			chars = "";
 			iJournal = true;
 		}
 		else if(qName.equalsIgnoreCase("url") && iPub){
+			chars = "";
 			iURL = true;
 		}
 	}
@@ -75,48 +80,25 @@ class PublicationsByTitleParser extends DefaultHandler{
 		// System.out.println(t);
 		if(iPub && iAuthor){
 			// System.out.print(this.authors);
-			this.authors.add(t);
+			chars += t;
 		}
 		else if(iPub && iTitle){
-			this.title = t;
-			String[] words = t.trim().split("\\s+");
-			int rel = 0;
-			for(String tag: tags){
-				for(String w: words){
-					if (tag.equalsIgnoreCase(w)) {
-						rel++;
-					}
-				}
-			}
-			relevance = rel;
+			chars += t;
 		}
 		else if(iPub && iPages){
-			this.pages = t;
+			chars += t;
 		}
 		else if(iPub && iYear){
-			try{
-				this.year = Integer.parseInt(t);
-		//		System.out.println("Successful year: " + this.year);
-			}catch(Exception e){
-				e.printStackTrace();
-				System.out.println("year exception " + type);
-				System.out.println(key);
-				System.out.println(title);
-				System.out.println(authors.size());
-				System.out.println(iJournal);
-				System.out.println(year);
-				System.exit(0);
-			}
+			chars += t;
 		}
 		else if(iPub && iVolume){
-			this.volume = t;
+			chars += t;
 		}
 		else if(iPub && iJournal){
-			this.journal = t;
-		//	System.out.println("^^"+t);
+			chars += t;
 		}
 		else if(iPub && iURL){
-			this.url = t;
+			chars += t;
 		}
 	}
 
@@ -127,35 +109,50 @@ class PublicationsByTitleParser extends DefaultHandler{
 			qName.equalsIgnoreCase("incollection")){
 
 			iPub = false;
-			if(relevance != 0){
+			if(this.relevance != 0){
 				Publication pub = new Publication(type, authors, title, pages, year, volume, journal, url, key, relevance);
 				relevantPubs.add(pub);
 			}
 			authors = null;
 			type = title = journal = url = pages = key = "";
-			relevance = 0;
+			this.relevance = 0;
 		}
 		else if((qName.equalsIgnoreCase("author") || qName.equalsIgnoreCase("editor")) && iPub){
+			this.authors.add(chars);
 			iAuthor = false;
 		}
 		else if(qName.equalsIgnoreCase("title") && iPub){
+			this.title = chars;
+			String[] words = title.trim().split("\\s+");
+			int rel = 0;
+			for(String tag: tags){
+				for(String w: words){
+					if (tag.equalsIgnoreCase(w)) {
+						rel++;
+					}
+				}
+			}
+			this.relevance = rel;
 			iTitle = false;
 		}
 		else if(qName.equalsIgnoreCase("pages") && iPub){
+			this.pages = chars;
 			iPages = false;
 		}
 		else if(qName.equalsIgnoreCase("year") && iPub){
-		//	System.out.println("iyear falses qname : " + qName);
+			this.year = Integer.parseInt(chars);
 			iYear = false;
 		}
 		else if(qName.equalsIgnoreCase("volume") && iPub){
+			this.volume = chars;
 			iVolume = false;
 		}
 		else if((qName.equalsIgnoreCase("journal") || qName.equalsIgnoreCase("booktitle")) && iPub){
-		//	 System.out.println("iJournal false coz qname is "+qName);
+			this.journal = chars;
 			iJournal = false;
 		}
 		else if(qName.equalsIgnoreCase("url") && iPub){
+			this.url = chars;
 			iURL = false;
 		}
 	}

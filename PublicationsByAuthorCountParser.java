@@ -16,6 +16,7 @@ class PublicationsByAuthorCountParser extends DefaultHandler{
 	ArrayList<String> authors = new ArrayList<String>();
 	
 	boolean iPub = false, iAuthor = false;
+	String chars = "";
 	
 	public PublicationsByAuthorCountParser(TreeMap<String, String> aliasMap, TreeMap<String, Integer> allAuthors){
 		System.setProperty("jdk.xml.entityExpansionLimit", "0");
@@ -38,6 +39,7 @@ class PublicationsByAuthorCountParser extends DefaultHandler{
 			// System.out.println(key);
 		}
 		else if((qName.equalsIgnoreCase("author") || qName.equalsIgnoreCase("editor")) && iPub){
+			chars = "";
 			iAuthor = true;
 		}
 	}
@@ -47,7 +49,7 @@ class PublicationsByAuthorCountParser extends DefaultHandler{
 		// System.out.println(t);
 		if(iPub && iAuthor){
 			// System.out.print(this.authors);
-			this.authors.add(t);
+			chars += t;
 		}
 	}
 
@@ -67,13 +69,14 @@ class PublicationsByAuthorCountParser extends DefaultHandler{
 					allAuthors.put(aliasMap.get(au), allAuthors.get(aliasMap.get(au)) + 1);
 				}
 				else{
-					// allAuthors.put(au, 1);
+					allAuthors.put(au, 1);
 				}
 			}
 
 			authors = null;
 		}
 		else if(qName.equalsIgnoreCase("author") && iPub){
+			this.authors.add(chars);
 			iAuthor = false;
 		}
 	}
