@@ -70,7 +70,6 @@ class PublicationsByAuthorParser extends DefaultHandler{
 			chars = "";
 			iURL = true;
 		}
-
 	}
 
 	public void characters(char ch[], int start, int length) throws SAXException{
@@ -93,7 +92,6 @@ class PublicationsByAuthorParser extends DefaultHandler{
 		}
 		else if(iPub && iJournal){
 			chars += t;
-			// System.out.println("^^");
 		}
 		else if(iPub && iURL){
 			chars += t;
@@ -107,7 +105,6 @@ class PublicationsByAuthorParser extends DefaultHandler{
 			qName.equalsIgnoreCase("incollection")){
 
 			iPub = false;
-			
 			ArrayList<String> byAuthorAliases = byAuthor.getAliases();
 			for(String au: authors){
 				for(String al: byAuthorAliases){
@@ -117,7 +114,6 @@ class PublicationsByAuthorParser extends DefaultHandler{
 					}
 				}
 			}
-
 			authors = null;
 			type = title = journal = url = pages = key = "";
 			relevance = 0;
@@ -136,7 +132,6 @@ class PublicationsByAuthorParser extends DefaultHandler{
 		}
 		else if(qName.equalsIgnoreCase("year") && iPub){
 			this.year = Integer.parseInt(chars);
-		//	System.out.println("iyear trues qname : " + qName);
 			iYear = false;
 		}
 		else if(qName.equalsIgnoreCase("volume") && iPub){
@@ -145,7 +140,6 @@ class PublicationsByAuthorParser extends DefaultHandler{
 		}
 		else if((qName.equalsIgnoreCase("journal") || qName.equalsIgnoreCase("booktitle")) && iPub){
 			this.journal = chars;
-		//	 System.out.println("iJournal true coz qname is "+qName);
 			iJournal = false;
 		}
 		else if(qName.equalsIgnoreCase("url") && iPub){
@@ -157,30 +151,6 @@ class PublicationsByAuthorParser extends DefaultHandler{
 	public void endDocument() throws SAXException{
 		System.out.println("BOTTOM");
 	}
-
-	// public static void main(String[] args) throws Exception{
-	// 	System.setProperty("jdk.xml.entityExpansionLimit", "0");
-
-	// 	SAXParserFactory spf = SAXParserFactory.newInstance();
-	//     spf.setNamespaceAware(true);
-	//     SAXParser saxParser = spf.newSAXParser();
-	// 	XMLReader xmlReader = saxPars
-	// er.getXMLReader();
-	// 	PublicationsByAuthorParser parser = new PublicationsByAuthorParser();
-	// 	xmlReader.setContentHandler(parser);
-	// 	xmlReader.parse("dblp.xml");
-	// 	// saxParser.parse(new File("dblp.xml"), parser);
-	// 	System.out.println(parser.getList().size());
-	// 	int j=0;
-	// 	for(Publication p: parser.getList().keySet()){
-	// 		System.out.println(p);
-	// 		System.out.println("Relevance: "+parser.getList().get(p));
-	// 		j += 1;
-	// 		if(j == 10){
-	// 			break;
-	// 		}
-	// 	}
-	// }
 
 	public ArrayList<Publication> getList(){
 		return relevantPubs;

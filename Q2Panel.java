@@ -35,7 +35,18 @@ class Q2Panel extends QPanel{
 	public void search(){
 		QueryEngine qe = getEngine().getQueryEngine();
 		RPanel r = getEngine().getRPanel();
-		qe.authorByPublications(Integer.parseInt(noPubs.getText()));
-		r.setAuthList(qe.getCurrentAuthors());
+		if("".equalsIgnoreCase(noPubs.getText().trim())){
+			r.getOutBox().setText("All fields are compulsary!");
+		}
+		else{
+			try{
+				int n = Integer.parseInt(noPubs.getText().trim());
+				qe.authorByPublications(n);
+				r.setAuthList(qe.getCurrentAuthors());
+			}
+			catch(NumberFormatException nu){
+				r.getOutBox().setText("Invalid parameter in <"+noPubsTag+">!");
+			}
+		}
 	}
 }

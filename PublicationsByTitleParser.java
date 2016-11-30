@@ -21,10 +21,7 @@ class PublicationsByTitleParser extends DefaultHandler{
 	boolean iYear = false, iVolume = false, iJournal = false, iURL = false;
 
 	public PublicationsByTitleParser(String[] tags){
-		this.tags = tags; //new ArrayList<String>();
-//		for(String s: tags){
-//			this.tags.add(s);
-//		}
+		this.tags = tags;
 	}
 
 	public void startDocument()	throws SAXException{
@@ -77,9 +74,7 @@ class PublicationsByTitleParser extends DefaultHandler{
 
 	public void characters(char ch[], int start, int length) throws SAXException{
 		String t = new String(ch, start, length);
-		// System.out.println(t);
 		if(iPub && iAuthor){
-			// System.out.print(this.authors);
 			chars += t;
 		}
 		else if(iPub && iTitle){
@@ -118,8 +113,7 @@ class PublicationsByTitleParser extends DefaultHandler{
 			this.relevance = 0;
 		}
 		else if((qName.equalsIgnoreCase("author") || qName.equalsIgnoreCase("editor")) && iPub){
-			this.authors.add(chars);
-			iAuthor = false;
+			this.authors.add(chars); iAuthor = false;
 		}
 		else if(qName.equalsIgnoreCase("title") && iPub){
 			this.title = chars;
@@ -136,24 +130,20 @@ class PublicationsByTitleParser extends DefaultHandler{
 			iTitle = false;
 		}
 		else if(qName.equalsIgnoreCase("pages") && iPub){
-			this.pages = chars;
-			iPages = false;
+			this.pages = chars; iPages = false;
 		}
 		else if(qName.equalsIgnoreCase("year") && iPub){
 			this.year = Integer.parseInt(chars);
 			iYear = false;
 		}
 		else if(qName.equalsIgnoreCase("volume") && iPub){
-			this.volume = chars;
-			iVolume = false;
+			this.volume = chars; iVolume = false;
 		}
 		else if((qName.equalsIgnoreCase("journal") || qName.equalsIgnoreCase("booktitle")) && iPub){
-			this.journal = chars;
-			iJournal = false;
+			this.journal = chars; iJournal = false;
 		}
 		else if(qName.equalsIgnoreCase("url") && iPub){
-			this.url = chars;
-			iURL = false;
+			this.url = chars; iURL = false;
 		}
 	}
 

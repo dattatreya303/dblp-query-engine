@@ -16,41 +16,29 @@ class QueryPanel extends JPanel{
 	private QPanel currentQPanel;
 	private DBLPGui qe;
 	
-	// public static final int MESSAGE_X = 85;
-	// public static final int MESSAGE_Y = 150;
-	// private static final int DEFAULT_WIDTH = 350;
-	// private static final int DEFAULT_HEIGHT = 500;
-	
 	QueryPanel(DBLPGui aqe) throws Exception{
 		setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
 		qe = aqe;
-		basePanel = new JPanel();
-		search = new JButton();
+		basePanel = new JPanel(); search = new JButton();
 
 		queryBox = new JComboBox<String>();
-		queryBox.addItem("Query1");
-		queryBox.addItem("Query2");
-		queryBox.addItem("Query3");
+		queryBox.addItem("Query1");	queryBox.addItem("Query2");	queryBox.addItem("Query3");
 		queryBox.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e){
+				basePanel.removeAll();
 				JComboBox m = (JComboBox)e.getSource();
 				String selQuery = (String)m.getSelectedItem();
-				// System.out.println(selQuery);
 				if(selQuery.equals("Query1")){
-					basePanel.removeAll();
 					basePanel.add(Q1Panel.getInstance(qe));
 					basePanel.revalidate();
 					currentQPanel = Q1Panel.getInstance(qe);
 				}
 				else if(selQuery.equals("Query2")){
-					// System.out.println("Query2");
-					basePanel.removeAll();
 					basePanel.add(Q2Panel.getInstance(qe));
 					basePanel.revalidate();
 					currentQPanel = Q2Panel.getInstance(qe);
 				}
 				else{
-					basePanel.removeAll();
 					basePanel.add(Q3Panel.getInstance(qe));
 					basePanel.revalidate();
 					currentQPanel = Q3Panel.getInstance(qe);
@@ -58,8 +46,7 @@ class QueryPanel extends JPanel{
 			}
 		});
 		queryBox.setSelectedIndex(0);
-		// queryBox.setMaximumSize(queryBox.getPreferredSize());
-
+		
 		search = new JButton("Search");
 		search.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e){
@@ -77,21 +64,5 @@ class QueryPanel extends JPanel{
 		add(queryBox);
 		add(basePanel);
 		add(sPanel);
-
 	}
 }
-
-// 		search = new JButton("Search");
-// 		add(queryBox);
-// 		add(searchBy);
-// 		add(nameTitleTag);
-// 		add(nameTitle);
-// 		add(sinceYearTag);
-// 		add(sinceYear);
-// 		add(customRangeTag);
-// 		add(customRangeLower);
-// 		add(customRangeUpper);
-// 		add(sortByRelevance);
-// 		add(sortByYear);
-// 		add(search);
-// 		setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));

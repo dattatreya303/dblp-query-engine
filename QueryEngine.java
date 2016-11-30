@@ -32,12 +32,12 @@ class QueryEngine{
 		xmlReader.parse("dblp.xml");
 		aliasMap = parser.getPeople();
 		allAuthors = parser.getAllAuthors();
-		// System.out.println(aliasMap.size());
+		// System.out.println(allAuthors.containsKey("Philip S. Yu"));
 		PublicationsByAuthorCountParser parser2 = new PublicationsByAuthorCountParser(aliasMap, allAuthors);
 		xmlReader.setContentHandler(parser2);
 		xmlReader.parse("dblp.xml");
 		allAuthors = parser2.getCountMap();
-		// System.out.println(allAuthors.containsValue(1));
+		// System.out.println(allAuthors.get("Philip S. Yu"));
 		// int j=0;
 		// for(String a: allAuthors.keySet()){
 		// 	System.out.print(a+": ");
@@ -62,7 +62,6 @@ class QueryEngine{
 		currentPublications = parser.getList();
 		System.out.println(currentPublications);
 		int j=0;
-		// Collections.sort(currentPublications);
 		// for(Publication p: currentPublications){
 		// 	if(p.relevance >= 1){
 		// 		System.out.print(p);
@@ -82,12 +81,10 @@ class QueryEngine{
 		XMLReader xmlReader = saxParser.getXMLReader();
 		PersonParser parser = new PersonParser(author);
 		xmlReader.setContentHandler(parser);
-
 		Person aPerson = new Person();
 		try{
 			xmlReader.parse("dblp.xml");
-		}
-		catch(SAXBreakerException s){
+		}catch(SAXBreakerException s){
 			aPerson = parser.getPerson();
 		}
 
@@ -102,8 +99,7 @@ class QueryEngine{
 			for(Publication p: currentPublications){
 				System.out.println(p);
 			}
-		}
-		else{
+		}else{
 			System.out.println("Author not found");
 		}
 	}
@@ -121,26 +117,19 @@ class QueryEngine{
 	public double predictPublications(String author, int year) throws Exception{
 		SAXParserFactory spf = SAXParserFactory.newInstance();
 	    spf.setNamespaceAware(true);
-	    SAXParser saxParser = spf.newSAXParser();
-		XMLReader xmlReader = saxParser.getXMLReader();
+	    SAXParser saxParser = spf.newSAXParser(); XMLReader xmlReader = saxParser.getXMLReader();
 		PersonParser parser = new PersonParser(author);
-		xmlReader.setContentHandler(parser);
-		Person p = new Person();
+		xmlReader.setContentHandler(parser); Person p = new Person();
 		try{
 			xmlReader.parse("dblp.xml");
-		}
-		catch(SAXBreakerException s){
+		}catch(SAXBreakerException s){
 			p = parser.getPerson();
 		}
-
 		if(!p.getKey().equals("")){
 			PublicationsByAuthorParser parser2 = new PublicationsByAuthorParser(p);
-			xmlReader.setContentHandler(parser2);
-			xmlReader.parse("dblp.xml");
-			currentPublications = null;
+			xmlReader.setContentHandler(parser2); xmlReader.parse("dblp.xml");
 			currentPublications = parser2.getList();
 			Collections.sort(currentPublications, new YearComparator());
-			// System.out.println(currentPublications.size());
 			pubsPerYear = new ArrayList<Integer>();
 			int c = 0, prev = year-10;
 			Publication pi = currentPublications.get(0);
@@ -150,8 +139,7 @@ class QueryEngine{
 				if(pi.getYear() >= year-10 && pi.getYear() <= year+1){
 					if(pi.getYear() == prev){
 						c++;
-					}
-					else{
+					}else{
 						pubsPerYear.add(c);
 						c = 1;
 						prev = pi.getYear();
@@ -168,13 +156,11 @@ class QueryEngine{
 			for(i = 1; i <= prev; i++){
 				sum += pubsPerYear.get(i);
 			}
-			int avg = sum/prev;
-			int ans = (int)(Math.random()*(pubsPerYear.get(1)*prev - sum));
+			int avg = sum/prev, ans = (int)(Math.random()*(pubsPerYear.get(1)*prev - sum));
 			double answer = (ans+sum)/(double)prev;
 			return answer;
 			// System.out.println("Mera answer : " + answer + "  Actual pubs: " + pubsPerYear.get(0));
-		}
-		else{
+		}else{
 			System.out.println("Author not found");
 			return -1;
 		}
@@ -200,7 +186,6 @@ class QueryEngine{
 		}
 		return newpubs;
 	}
-
 	public ArrayList<Publication> getCurrentPublications(){
 		return currentPublications;
 	}

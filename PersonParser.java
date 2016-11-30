@@ -65,13 +65,7 @@ class PersonParser extends DefaultHandler{
 				int f=0;
 				allA.put(aliases.get(0), 0);
 				for(int i=1; i<aliases.size(); i++){
-					if("Philip S. Yu".equalsIgnoreCase(aliases.get(i))){
-						f++;
-					}
 					tm.put(aliases.get(i), aliases.get(0));
-				}
-				if(f > 0){
-					System.out.println(aliases);
 				}
 			}else{
 				for(String a: aliases){
@@ -83,9 +77,6 @@ class PersonParser extends DefaultHandler{
 			}
 		}
 		else if(qName.equalsIgnoreCase("author") && iPerson){
-			if(chars.equalsIgnoreCase("Philip S. Yu")){
-				System.out.println("&&");
-			}
 			this.aliases.add(chars);
 			iAuthor = false;
 		}

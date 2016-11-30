@@ -17,6 +17,7 @@ class PublicationsByAuthorCountParser extends DefaultHandler{
 	
 	boolean iPub = false, iAuthor = false;
 	String chars = "";
+	int f=0;
 	
 	public PublicationsByAuthorCountParser(TreeMap<String, String> aliasMap, TreeMap<String, Integer> allAuthors){
 		System.setProperty("jdk.xml.entityExpansionLimit", "0");
@@ -62,6 +63,9 @@ class PublicationsByAuthorCountParser extends DefaultHandler{
 			iPub = false;
 
 			for(String au: authors){
+				if("Philip S. Yu".equalsIgnoreCase(au)){
+					f++;
+				}
 				if(allAuthors.containsKey(au)){
 					allAuthors.put(au, allAuthors.get(au) + 1);
 				}
@@ -83,35 +87,8 @@ class PublicationsByAuthorCountParser extends DefaultHandler{
 
 	public void endDocument() throws SAXException{
 		System.out.println("BOTTOM");
+		System.out.println(f);
 	}
-
-	// public static void main(String[] args) throws Exception{
-	// 	System.setProperty("jdk.xml.entityExpansionLimit", "0");
-
-	// 	SAXParserFactory spf = SAXParserFactory.newInstance();
-	//     spf.setNamespaceAware(true);
-	//     SAXParser saxParser = spf.newSAXParser();
-	// 	XMLReader xmlReader = saxParser.getXMLReader();
-	// 	ArrayList<String> temp = new ArrayList<String>();
-	// 	temp.add("quantum");
-	// 	temp.add("computing");
-	// 	PublicationsByTitleParser parser = new PublicationsByTitleParser(temp);
-	// 	xmlReader.setContentHandler(parser);
-	// 	xmlReader.parse("dblp.xml");
-	// 	// saxParser.parse(new File("dblp.xml"), parser);
-	// 	System.out.println(parser.getList().size());
-	// 	int j=0;
-	// 	for(Publication p: parser.getList().keySet()){
-	// 		if(parser.getList().get(p) == temp.size()){
-	// 			System.out.print(p);
-	// 			// System.out.println("Relevance: "+parser.getList().get(p)+"\n");
-	// 			j += 1;
-	// 			if(j == 10){
-	// 				break;
-	// 			}
-	// 		}
-	// 	}
-	// }
 
 	public TreeMap<String, Integer> getCountMap(){
 		return allAuthors;
