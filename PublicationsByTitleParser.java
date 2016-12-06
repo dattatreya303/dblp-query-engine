@@ -123,6 +123,7 @@ class PublicationsByTitleParser extends DefaultHandler{
 				for(String w: words){
 					if (tag.equalsIgnoreCase(w)) {
 						rel++;
+						break;
 					}
 				}
 			}
