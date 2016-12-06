@@ -41,11 +41,14 @@ class Q2Panel extends QPanel{
 		else{
 			try{
 				int n = Integer.parseInt(noPubs.getText().trim());
+				if(n < 0){
+					raise NumberFormatException;
+				}
 				qe.authorByPublications(n);
 				r.setAuthList(qe.getCurrentAuthors());
 			}
 			catch(NumberFormatException nu){
-				r.getOutBox().setText("Invalid parameter in <"+noPubsTag+">!");
+				r.getOutBox().setText("Invalid parameter in <No. of publications>!");
 			}
 		}
 	}

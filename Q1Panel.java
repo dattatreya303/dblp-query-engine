@@ -12,10 +12,11 @@ class Q1Panel extends QPanel{
 	private JLabel nameTitleTag, sinceYearTag, customRangeTag;
 	private JTextField nameTitle, customRangeLower, customRangeUpper;
 	private ButtonGroup sortBy;
-	private JRadioButton sortByYear, revSortByYear, sortByRelevance;
+	private JRadioButton sortByRelevance;
+	// private JRadioButton sortByYear, revSortByYear;
 	private JComboBox<String> searchBy;
-	private String oldTitl = "";
-	private int oldCustomRangeLower = 0, oldCustomRangeUpper = 9999;
+	// private String oldTitl = "";
+	// private int oldCustomRangeLower = 0, oldCustomRangeUpper = 9999;
 
 	private static Q1Panel instance = null;
 
@@ -41,13 +42,13 @@ class Q1Panel extends QPanel{
 		sortBy = new ButtonGroup();
 		sortByYear = new JRadioButton("Sort by year", false);
 		sortByRelevance = new JRadioButton("Sort by relevance", true);
-		revSortByYear = new JRadioButton("Sort by year (reverse)", false);
+		// revSortByYear = new JRadioButton("Sort by year (reverse)", false);
 		sortBy.add(sortByRelevance);
-		sortBy.add(sortByYear);
-		sortBy.add(revSortByYear);
+		// sortBy.add(sortByYear);
+		// sortBy.add(revSortByYear);
 		temp.add(sortByRelevance);
-		temp.add(sortByYear);
-		temp.add(revSortByYear);
+		// temp.add(sortByYear);
+		// temp.add(revSortByYear);
 
 		add(searchBy);
 		add(nameTitleTag);
@@ -76,6 +77,9 @@ class Q1Panel extends QPanel{
 				int ly, hy;
 				ly = Integer.parseInt(customRangeLower.getText().trim());
 				hy = Integer.parseInt(customRangeUpper.getText().trim());
+				if(ly < 0 || hy < 0 || ly > hy){
+					raise NumberFormatException;
+				}
 				if(searchBy.getSelectedItem().equals("Title")){
 					qe.publicationsByTitle(nameTitle.getText().trim().split("\\s+"));
 				}else if(searchBy.getSelectedItem().equals("Author")){

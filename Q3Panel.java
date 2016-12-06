@@ -19,10 +19,8 @@ class Q3Panel extends QPanel{
 		setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
 		authorTag = new JLabel("Author: ");
 		yearTag = new JLabel("Year: ");
-		// noPubsTag.setMaximumSize(noPubsTag.getPreferredSize());
 		author = new JTextField(50);
 		year = new JTextField(4);
-		// noPubs.setMaximumSize(noPubs.getPreferredSize());
 		add(authorTag);
 		add(author);
 		add(yearTag);
@@ -45,13 +43,16 @@ class Q3Panel extends QPanel{
 		else{
 			try{
 				int n = Integer.parseInt(year.getText().trim());
+				if(n < 0){
+					raise NumberFormatException;
+				}
 				double answer = qe.predictPublications(author.getText().trim(), n);
 				r.getOutBox().setText("Prediction: "+answer);
 				// qe.authorByPublications(Integer.parseInt(noPubs.getText().trim()));
 				r.setYearList(qe.getPubsPerYear());
 			}
 			catch(NumberFormatException nu){
-				r.getOutBox().setText("Invalid parameter in <"+yearTag+">!");
+				r.getOutBox().setText("Invalid parameter in <year>!");
 			}
 		}
 	}
