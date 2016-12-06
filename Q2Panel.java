@@ -42,7 +42,7 @@ class Q2Panel extends QPanel{
 			try{
 				int n = Integer.parseInt(noPubs.getText().trim());
 				if(n < 0){
-					raise NumberFormatException;
+					throw new NumberFormatException();
 				}
 				qe.authorByPublications(n);
 				r.setAuthList(qe.getCurrentAuthors());

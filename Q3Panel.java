@@ -44,7 +44,7 @@ class Q3Panel extends QPanel{
 			try{
 				int n = Integer.parseInt(year.getText().trim());
 				if(n < 0){
-					raise NumberFormatException;
+					throw new NumberFormatException();
 				}
 				double answer = qe.predictPublications(author.getText().trim(), n);
 				r.getOutBox().setText("Prediction: "+answer);

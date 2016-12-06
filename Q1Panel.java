@@ -40,7 +40,7 @@ class Q1Panel extends QPanel{
 		JPanel temp = new JPanel();
 		temp.setLayout(new BoxLayout(temp, BoxLayout.PAGE_AXIS));
 		sortBy = new ButtonGroup();
-		sortByYear = new JRadioButton("Sort by year", false);
+		// sortByYear = new JRadioButton("Sort by year", false);
 		sortByRelevance = new JRadioButton("Sort by relevance", true);
 		// revSortByYear = new JRadioButton("Sort by year (reverse)", false);
 		sortBy.add(sortByRelevance);
@@ -78,7 +78,7 @@ class Q1Panel extends QPanel{
 				ly = Integer.parseInt(customRangeLower.getText().trim());
 				hy = Integer.parseInt(customRangeUpper.getText().trim());
 				if(ly < 0 || hy < 0 || ly > hy){
-					raise NumberFormatException;
+					throw new NumberFormatException();
 				}
 				if(searchBy.getSelectedItem().equals("Title")){
 					qe.publicationsByTitle(nameTitle.getText().trim().split("\\s+"));
@@ -87,9 +87,11 @@ class Q1Panel extends QPanel{
 				}
 				if(sortByRelevance.isSelected()){
 					qe.sortByRelevance();
-				}else if(sortByYear.isSelected()){
-					qe.sortByYear(1);
-				}else{
+				}
+				// else if(sortByYear.isSelected()){
+				// 	qe.sortByYear(1);
+				// }
+				else{
 					qe.sortByYear(0);
 				}
 				r.setPubList(qe.betweenYears(ly, hy));
